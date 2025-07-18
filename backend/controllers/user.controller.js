@@ -79,7 +79,6 @@ const login = async ( req,res) => {
             _id: user._id,
             fullname: user.fullname,
             email: user.email,
-            password: user.password,
             role:user.role,
             profilephoto:user.profilephoto
         }
@@ -131,4 +130,42 @@ const logout = async (req, res) => {
     }
 }
 
-module.exports = {register, login, getMe, logout};
+const updateProfile = async (req,res) => {
+   try {
+    const {fullname, email} = req.body;
+    const userId = req.id;
+    let user = await User.findByIdAndUpdate(userId);
+
+    if(!user){
+        return res.status(400).json({
+            message:"User not found",
+            success: false
+        });
+    }
+
+    if(fullname) user.fullname = fullname
+    if(email) user.email = email
+
+    await user.save();
+
+    user={
+        _id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        profilephoto: user.profilephoto
+    }
+
+    return res.status(200).json({
+        message:"Profile updated successfully",
+        user,
+        success: true
+    })
+   } catch (error) {
+    return res.status(400).json({
+        message:error.message,
+        success: false
+    });
+   } 
+}
+
+module.exports = {register, login, getMe, logout, updateProfile};
