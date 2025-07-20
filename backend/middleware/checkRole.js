@@ -1,7 +1,7 @@
 const checkRole = (allowedRoles = []) => {
     return (req,res,next) => {
         try {
-            if(req.user && req.id){
+            if(!req.id){
                 return res.status(401).json({
                     message:"User not authenticated"
                 })
@@ -21,3 +21,5 @@ const checkRole = (allowedRoles = []) => {
         }
     };
 }
+
+module.exports = checkRole;
