@@ -1,8 +1,14 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const navigation = () => {
+    navigate("/account");
+  }
   return (
     <div className="max-w-7xl mx-auto px-6 py-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-fit">
@@ -22,7 +28,7 @@ const Hero = () => {
             Join thousands of learners and take control of your education with self-paced lessons, engaging videos, and expert instructors.
           </p>
           <div>
-            <Button className="px-6 h-10 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition">
+            <Button className="px-6 h-10 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition" onClick={navigation}>
               Login
             </Button>
           </div>
