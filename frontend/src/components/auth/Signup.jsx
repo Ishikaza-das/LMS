@@ -1,46 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from "@/components/ui/radio-group"
 import { Button } from '../ui/button'
+import axios from 'axios'
+import { toast } from 'sonner'
 
-const Signup = () => {
+const Signup = ({switchToLogin}) => {
+  const [input, setInput] = useState({
+    file:"",
+    fullname:"",
+    email:"",
+    password:"",
+    role:""
+  });
+
+  const changeEventHandler = (e) => {
+    setInput({...input,[e.target.name]: e.target.value});
+  }
+  const changeFileHandler = (e) => {
+    setInput({...input, file: e.target.files?.[0]});
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(); 
+    formData.append("fullname", input.fullname);
+    formData.append("email", input.email);
+    formData.append("password", input.password);
+    formData.append("role", input.role);
+    if(input.file){
+      formData.append("file",input.file);
+    }
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_USER_API}/register`, formData,{
+        headers:{
+          "Content-Type":"multipart/form-data"
+        },
+        withCredentials:true
+      })
+      if(response.data.success){
+        toast.success(response.data.message);
+        switchToLogin();
+        console.log(response.data);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   return (
     <div>
-      <form className='border border-slate-300 rounded-md px-2'>
+      <form className='border border-slate-300 rounded-md px-2' onSubmit={submitHandler}>
          <h1 className="font-medium text-xl text-blue-500 py-4">Create a new account</h1>
          <div className='flex items-center gap-2'>
           <Label>Profile</Label>
-          <Input accept="image/*" type="file" className="cursor-pointer"/>
+          <Input accept="image/*" type="file" className="cursor-pointer" onChange={changeFileHandler}/>
          </div>
 
          <div className='my-2 space-y-4'>
           <Label>Full Name</Label>
-          <Input placeholder="Jhon Dao"/>
+          <Input type="text" placeholder="Jhon Dao" name="fullname" value={input.fullname} onChange={changeEventHandler}/>
          </div>
 
          <div className='my-2 space-y-4'>
           <Label>Email</Label>
-          <Input placeholder="jhondao@gmail.com"/>
+          <Input type="email" placeholder="jhondao@gmail.com" name="email" value={input.email} onChange={changeEventHandler}/>
          </div>
 
          <div className='my-2 space-y-4'>
           <Label>Password</Label>
-          <Input placeholder="Jhondao123"/>
+          <Input type="password" placeholder="Jhondao123" name="password" value={input.password} onChange={changeEventHandler}/>
          </div>
           <div className="flex items-center justify-between">
             <RadioGroup className='flex items-center gap-4 my-5'>
               <div className="flex items-center space-x-2">
-                <Input type="radio" name="role" value="student" className="cursor-pointer"/>
+                <Input type="radio" name="role" value="student" className="cursor-pointer" onChange={changeEventHandler}/>
                 <Label htmlFor="r1">Student</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Input type="radio" name="role" value="instructor" className="cursor-pointer"/>
+                <Input type="radio" name="role" value="instructor" className="cursor-pointer" onChange={changeEventHandler}/>
                 <Label htmlFor="r2">Instructor</Label>
               </div>
             </RadioGroup>
           </div>
-          <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700">Signup</Button>
+          <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Signup</Button>
       </form>
     </div>
   )

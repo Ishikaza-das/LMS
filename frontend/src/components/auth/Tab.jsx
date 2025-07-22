@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Signup from "./Signup";
 import Login from "./Login";
 
 const Tab = () => {
+  const [activeTab, setActiveTab ] = useState("login");
   return (
     <div className="max-w-7xl mx-auto flex items-center justify-center my-20">
-      <Tabs defaultValue="login" className="w-1/2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-1/2">
         <TabsList className="bg-slate-300 h-10 px-2 gap-2 w-full">
           <TabsTrigger
             value="login"
@@ -25,7 +26,7 @@ const Tab = () => {
           <Login />
         </TabsContent>
         <TabsContent value="signup">
-          <Signup />
+          <Signup switchToLogin={() => setActiveTab("login")}/>
         </TabsContent>
       </Tabs>
     </div>
