@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
 const Bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const getDataUri = require("../utils/datauri");
+const cloudinary = require("../utils/cloudinary");
 
 const register = async (req, res) => {
     try {
@@ -20,13 +22,23 @@ const register = async (req, res) => {
             });
         }
 
+        if(req.file){
+            try {
+                const fileUri = getDataUri(req.file);
+                const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+                profilephoto = cloudResponse.secure_url;
+            } catch (uploadError) {
+                console.error("File upload error:",uploadError);
+            }
+        }
+
         const hashedPassword = await Bcrypt.hash(password, 10);
         await User.create({
             fullname,
             email,
             password: hashedPassword,
             role,
-            // profilephoto
+            profilephoto
         });
         return res.status(201).json({
             message:'Account created successfully',

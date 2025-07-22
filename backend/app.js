@@ -9,9 +9,9 @@ const courseRoute = require('./routes/course.route');
 const app = express();
 
 app.use(cros({
-    // origin,
+    origin: process.env.FRONTEND,
     methods:['GET','POST','DELETE','PUT'],
-    // credentials:true,
+    credentials:true,
     allowedHeaders: ['Content-Type','Authorization'],
 }));
 app.use(express.json());
