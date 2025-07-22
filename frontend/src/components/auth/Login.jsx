@@ -1,36 +1,72 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from "@/components/ui/radio-group"
 import { Button } from '../ui/button'
+import axios from 'axios'
+import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    email:"",
+    password:"",
+    role:""
+  })
+  const changeEventHandler = (e) => {
+    setInput({...input, [e.target.name]: e.target.value})
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", input.email);
+    formData.append("password", input.password);
+    formData.append("role", input.role);
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_USER_API}/login`,formData,{
+        headers:{
+          "Content-Type":"application/json"
+        },
+        withCredentials: true
+      })
+      if(response.data.success){
+        navigate('/dashboard')
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  }
   return (
     <div>
-      <form className='border border-slate-300 rounded-md px-2'>
-         <h1 className="font-medium text-xl text-blue-500 py-4">Welcome</h1>
+      <form onSubmit={submitHandler} className='border border-slate-300 rounded-md px-2'>
+         <h1 className="font-medium text-xl text-blue-500 py-4">Welcome...</h1>
          <div className='my-2 space-y-4'>
           <Label>Email</Label>
-          <Input placeholder="jhondao@gmail.com"/>
+          <Input placeholder="jhondao@gmail.com" type="email" name="email" value={input.email} onChange={changeEventHandler}/>
          </div>
 
          <div className='my-2 space-y-4'>
           <Label>Password</Label>
-          <Input placeholder="Jhondao123"/>
+          <Input placeholder="Jhondao123" type="password" name="password" value={input.password} onChange={changeEventHandler}/>
          </div>
+
           <div className="flex items-center justify-between">
             <RadioGroup className='flex items-center gap-4 my-5'>
               <div className="flex items-center space-x-2">
-                <Input type="radio" name="role" value="student" className="cursor-pointer"/>
+                <Input type="radio" name="role" value="student" className="cursor-pointer" onChange={changeEventHandler}/>
                 <Label htmlFor="r1">Student</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Input type="radio" name="role" value="instructor" className="cursor-pointer"/>
+                <Input type="radio" name="role" value="instructor" className="cursor-pointer" onChange={changeEventHandler}/>
                 <Label htmlFor="r2">Instructor</Label>
               </div>
             </RadioGroup>
           </div>
-          <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700">Signup</Button>
+          <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Login</Button>
       </form>
     </div>
   )
