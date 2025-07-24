@@ -3,8 +3,10 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Mail, Pen } from "lucide-react";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+  const { user } = useSelector(store => store.auth);
   return (
     <div>
       <Navbar />
@@ -14,11 +16,11 @@ const Profile = () => {
             <Avatar className="h-30 w-30">
               <AvatarImage
                 className="w-full object-cover"
-                src="https://github.com/shadcn.png"
+                src={user?.profilephoto || "https://github.com/shadcn.png"}
               />
             </Avatar>
             <div>
-              <h1 className="font-medium text-xl">Ritesh Das</h1>
+              <h1 className="font-medium text-xl">{user?.fullname}</h1>
             </div>
           </div>
           <Button className="text-right border border-blue-600" variant="outline"><Pen/></Button>
@@ -26,7 +28,7 @@ const Profile = () => {
         <div className="my-6 px-4">
           <div className="flex items-center gap-4">
             <Mail/>
-            <p>test123@gmail.com</p>
+            <p>{user?.email}</p>
           </div>
         </div>
       </div>
