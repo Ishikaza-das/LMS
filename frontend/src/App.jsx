@@ -4,6 +4,8 @@ import Tab from "./components/auth/Tab"
 import Dashboard from "./components/pages/student/Dashboard"
 import Profile from "./components/pages/student/Profile"
 import Course from "./components/pages/student/Course"
+import IDashboard from "./components/pages/instructor/IDashboard"
+import ICourses from "./components/pages/instructor/ICourses"
 
 const appRouter = createBrowserRouter([
   {
@@ -25,11 +27,18 @@ const appRouter = createBrowserRouter([
   {
     path:"/profile",
     element:<Profile/>
+  },
+  {
+    path:"/admin/dashboard",
+    element:<IDashboard/>
+  },
+  {
+    path:"/admin/courses",
+    element:<ICourses/>
   }
 ])
 
 function App() {
-
   return (
     <div>
       <RouterProvider router={appRouter}/>

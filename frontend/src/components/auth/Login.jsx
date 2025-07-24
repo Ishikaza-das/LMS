@@ -41,7 +41,7 @@ const Login = () => {
       })
       if(response.data.success){
         dispatch(setUser(response.data.user))
-        navigate('/dashboard')
+        response.data.user.role === "instructor" ? navigate("/admin/dashboard") : navigate('/dashboard')
         toast.success(response.data.message);
       }
     } catch (error) {
