@@ -2,6 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Thumbnail from "./components/pages/Thumbnail"
 import Tab from "./components/auth/Tab"
 import Dashboard from "./components/pages/student/Dashboard"
+import Profile from "./components/pages/student/Profile"
+import Course from "./components/pages/student/Course"
 
 const appRouter = createBrowserRouter([
   {
@@ -15,6 +17,14 @@ const appRouter = createBrowserRouter([
   {
     path:"/dashboard",
     element:<Dashboard/>
+  },
+  {
+    path:"/course",
+    element:<Course/>
+  },
+  {
+    path:"/profile",
+    element:<Profile/>
   }
 ])
 

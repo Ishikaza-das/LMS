@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from "@/components/ui/radio-group"
@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '@/store/authSlice'
 import { Loader2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = ({switchToLogin}) => {
   const [input, setInput] = useState({
@@ -18,8 +19,9 @@ const Signup = ({switchToLogin}) => {
     role:""
   });
 
-  const {loading} = useSelector(store => store.auth);
+  const {loading, user} = useSelector(store => store.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
     setInput({...input,[e.target.name]: e.target.value});
@@ -56,6 +58,11 @@ const Signup = ({switchToLogin}) => {
       dispatch(setLoading(false));
     }
   }
+  useEffect( () => {
+      if(user){
+        navigate("/dashboard")
+      }
+    },[])
 
   return (
     <div>
@@ -93,7 +100,7 @@ const Signup = ({switchToLogin}) => {
             </RadioGroup>
           </div>
           {
-            loading ? <Button className="w-full my-4 h-10"><Loader2/>Please wait...</Button> : <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Signup</Button>
+            loading ? <Button className="w-full my-4 h-10  bg-blue-500 hover:bg-blue-700"><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait...</Button> : <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Signup</Button>
           }
       </form> 
     </div>

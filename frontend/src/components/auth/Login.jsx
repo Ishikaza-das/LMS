@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from "@/components/ui/radio-group"
@@ -18,7 +18,7 @@ const Login = () => {
     role:""
   })
 
-  const {loading} = useSelector(store => store.auth);
+  const {loading, user} = useSelector(store => store.auth);
   const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
@@ -51,6 +51,11 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   }
+  useEffect( () => {
+    if(user){
+      navigate("/dashboard")
+    }
+  },[])
   return (
     <div>
       <form onSubmit={submitHandler} className='border border-slate-300 rounded-md px-2'>
@@ -78,7 +83,7 @@ const Login = () => {
             </RadioGroup>
           </div>
           {
-            loading ? <Button className="w-full my-4 h-10"><Loader2/>Please wait...</Button> : <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Login</Button>
+            loading ?  <Button className="w-full my-4 h-10  bg-blue-500 hover:bg-blue-700"><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait...</Button> : <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Login</Button>
           }
       </form>
     </div>
