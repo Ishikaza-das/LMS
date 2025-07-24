@@ -6,6 +6,9 @@ import { Button } from '../ui/button'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading, setUser } from '@/store/authSlice'
+import { Loader2 } from 'lucide-react'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,6 +17,10 @@ const Login = () => {
     password:"",
     role:""
   })
+
+  const {loading} = useSelector(store => store.auth);
+  const dispatch = useDispatch();
+
   const changeEventHandler = (e) => {
     setInput({...input, [e.target.name]: e.target.value})
   }
@@ -25,6 +32,7 @@ const Login = () => {
     formData.append("role", input.role);
 
     try {
+      dispatch(setLoading(true));
       const response = await axios.post(`${import.meta.env.VITE_USER_API}/login`,formData,{
         headers:{
           "Content-Type":"application/json"
@@ -32,12 +40,15 @@ const Login = () => {
         withCredentials: true
       })
       if(response.data.success){
+        dispatch(setUser(response.data.user))
         navigate('/dashboard')
         toast.success(response.data.message);
       }
     } catch (error) {
       console.error(error);
       toast.error(error.response.data.message);
+    } finally{
+      dispatch(setLoading(false));
     }
   }
   return (
@@ -66,7 +77,9 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Login</Button>
+          {
+            loading ? <Button className="w-full my-4 h-10"><Loader2/>Please wait...</Button> : <Button className="my-4 w-full h-10 bg-blue-500 hover:bg-blue-700" type="submit">Login</Button>
+          }
       </form>
     </div>
   )
