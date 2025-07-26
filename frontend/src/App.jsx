@@ -6,6 +6,7 @@ import Profile from "./components/pages/student/Profile"
 import Course from "./components/pages/student/Course"
 import IDashboard from "./components/pages/instructor/IDashboard"
 import ICourses from "./components/pages/instructor/ICourses"
+import CreateCourse from "./components/pages/instructor/CreateCourse"
 
 const appRouter = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const appRouter = createBrowserRouter([
   {
     path:"/admin/courses",
     element:<ICourses/>
+  },
+  {
+    path:"/admin/createcourses",
+    element:<CreateCourse/>
   }
 ])
 

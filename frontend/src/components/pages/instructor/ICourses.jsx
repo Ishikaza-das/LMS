@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import React from "react";
 import CourseTable from "./components/CourseTable";
+import { useNavigate } from "react-router-dom";
 
 const ICourses = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar />
@@ -15,7 +17,7 @@ const ICourses = () => {
             className="w-fit border border-gray-400"
             placeholder="Filter by course name"
           />
-          <Button className="bg-blue-600">
+          <Button className="bg-blue-600" onClick={() => navigate("/admin/createcourses")}>
             <Plus />
             Add Course
           </Button>
