@@ -1,11 +1,13 @@
 const Course = require('../models/course.model');
+const getDataUri = require('../utils/datauri');
+const cloudinary = require("../utils/cloudinary");
 
 const createCourse = async (req,res) => {
     try {
     const {title, description, price, category, level, thumbnail} = req.body;
     const userId = req.id;
 
-    if(!title || !description || !price || !category || !level){
+    if(!title || !description || !price || !category || !level || !thumbnail){
         return res.status(400).json({
             message:"Something is missing",
             success: false
@@ -19,7 +21,11 @@ const createCourse = async (req,res) => {
             success: false
         })
     }
-
+    
+    const fileUri = getDataUri(req.file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    thumbnail = cloudResponse.secure_url;
+    
     course = await Course.create({
         title,
         description,
