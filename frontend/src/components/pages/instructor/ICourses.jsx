@@ -17,7 +17,7 @@ const ICourses = () => {
             className="w-fit border border-gray-400"
             placeholder="Filter by course name"
           />
-          <Button className="bg-blue-600" onClick={() => navigate("/admin/createcourses")}>
+          <Button className="bg-blue-600 hover:bg-blue-800" onClick={() => navigate("/admin/createcourses")}>
             <Plus />
             Add Course
           </Button>

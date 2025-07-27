@@ -52,8 +52,10 @@ const Login = () => {
     }
   }
   useEffect( () => {
-    if(user){
-      navigate("/dashboard")
+    if(user.role === "instructor"){
+      navigate("/admin/dashboard")
+    }else{
+      navigate('/dashboard')
     }
   },[])
   return (

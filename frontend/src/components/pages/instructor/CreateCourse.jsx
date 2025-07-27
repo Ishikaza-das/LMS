@@ -2,11 +2,13 @@ import Navbar from "@/components/shared/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { MoveLeft, Plus } from "lucide-react";
 import React from "react";
 
 const CreateCourse = () => {
+
   return (
     <div>
       <Navbar />
@@ -21,8 +23,14 @@ const CreateCourse = () => {
             <span>Add Lecture</span>
           </Button>
         </div>
-        <div className="my-6">
+        <div className="my-6 border border-gray-200 p-4 rounded-2xl">
           <form>
+            <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <Label className="text-xl font-medium">Thumbnail</Label>
+              <Input  type="file" accept="image/*"/>
+            </div>
+
             <div className="space-y-3">
               <Label className="text-xl font-medium">Course Name</Label>
               <Input />
@@ -34,8 +42,31 @@ const CreateCourse = () => {
             </div>
 
             <div className="space-y-3">
+              <Label className="text-xl font-medium">Category</Label>
+              <Input  />
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-xl font-medium">Level</Label>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="level"/>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="beginner">Beginner</SelectItem>
+                  <SelectItem value="intermediate">Intermediate</SelectItem>
+                  <SelectItem value="advance">Advance</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-3">
               <Label className="text-xl font-medium">Price (in Rupess)</Label>
               <Input  />
+            </div>
+            </div>
+            <div className="text-right">
+              <Button className="bg-blue-600 hover:bg-blue-700  my-4 h-10" type="submit">Create</Button>
             </div>
           </form>
         </div>
