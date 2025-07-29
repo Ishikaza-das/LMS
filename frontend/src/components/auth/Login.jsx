@@ -51,13 +51,13 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   }
-  useEffect( () => {
-    if(user.role === "instructor"){
-      navigate("/admin/dashboard")
-    }else{
-      navigate('/dashboard')
-    }
-  },[])
+  useEffect(() => {
+  if (user && user.role === "instructor") {
+    navigate("/admin/dashboard");
+  } else if (user && user.role === "student") {
+    navigate("/dashboard");
+  }
+}, [user, navigate]);
   return (
     <div>
       <form onSubmit={submitHandler} className='border border-slate-300 rounded-md px-2'>

@@ -66,7 +66,7 @@ const Navbar = () => {
               <Avatar className="cursor-pointer">
                 <AvatarImage
                   className="w-full object-cover"
-                  src={user.profilephoto || "https://github.com/shadcn.png"}
+                  src={user?.profilephoto || "https://github.com/shadcn.png"}
                 />
               </Avatar>
             </PopoverTrigger>
@@ -76,11 +76,11 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage
                       className="w-full object-cover"
-                      src={user.profilephoto || "https://github.com/shadcn.png"}
+                      src={user?.profilephoto || "https://github.com/shadcn.png"}
                     />
                   </Avatar>
                   <div>
-                    <h1 className="font-medium">{user.fullname}</h1>
+                    <h1 className="font-medium">{user?.fullname}</h1>
                   </div>
                 </div>
                 <div className="flex flex-col my-2 text-gray-600">
