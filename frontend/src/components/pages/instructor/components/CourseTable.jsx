@@ -1,9 +1,25 @@
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Delete, Edit2, MoreHorizontal } from 'lucide-react'
-import React from 'react'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import store from "@/store/store";
+import { Delete, Edit2, MoreHorizontal } from "lucide-react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const CourseTable = () => {
+  const { adminCourses } = useSelector((store) => store.course);
+  const [filterCourse, setFilterCourse] = useState(adminCourses);
   return (
     <div>
       <Table>
@@ -17,31 +33,35 @@ const CourseTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <tr>
-            <TableCell>Gen AI Full course</TableCell>
-            <TableCell>2025-11-10</TableCell>
-            <TableCell>₹ 250</TableCell>
-            <TableCell className="text-right">
-              <Popover>
-                <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
-                <PopoverContent className="w-32">
-                  <div className='flex items-center gap-4 w-fit cursor-pointer'>
-                    <Edit2/>
-                    <span>Edit</span>
-                  </div>
-                  <br />
-                  <div className='flex items-center gap-4 w-fit cursor-pointer'>
-                    <Delete/>
-                    <span>Delete</span>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </TableCell>
-          </tr>
+            {filterCourse.map((course) => (
+              <tr>
+                <TableCell>{course?.title}</TableCell>
+                <TableCell>{course?.createdAt.split('T')[0]}</TableCell>
+                <TableCell>₹ {course?.price}</TableCell>
+                <TableCell className="text-right">
+                  <Popover>
+                    <PopoverTrigger>
+                      <MoreHorizontal />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-32">
+                      <div className="flex items-center gap-4 w-fit cursor-pointer">
+                        <Edit2 />
+                        <span>Edit</span>
+                      </div>
+                      <br />
+                      <div className="flex items-center gap-4 w-fit cursor-pointer">
+                        <Delete />
+                        <span>Delete</span>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+              </tr>
+            ))}
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default CourseTable
+export default CourseTable;

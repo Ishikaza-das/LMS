@@ -5,8 +5,10 @@ import { Plus } from "lucide-react";
 import React from "react";
 import CourseTable from "./components/CourseTable";
 import { useNavigate } from "react-router-dom";
+import useGetAllAdminCourse from "@/hooks/useGetAllAdminCourse";
 
 const ICourses = () => {
+  useGetAllAdminCourse();
   const navigate = useNavigate();
   return (
     <div>

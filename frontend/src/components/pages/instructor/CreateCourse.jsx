@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { Loader2, MoveLeft, Plus } from "lucide-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const CreateCourse = () => {
@@ -20,6 +21,7 @@ const CreateCourse = () => {
   })
 
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
 
   const inputHandler = (e) => {
     setInput({...input, [e.target.name]: e.target.value})
@@ -42,10 +44,6 @@ const CreateCourse = () => {
     formData.append("level", input.level);
     formData.append("price", input.price);
     formData.append("file", input.file);
-
-    for (let pair of formData.entries()) {
-    console.log(`${pair[0]}:`, pair[1]);
-  }
 
     try {
       setLoading(true);
@@ -71,7 +69,7 @@ const CreateCourse = () => {
       <Navbar />
       <div className="max-w-7xl mx-auto my-10">
         <div className="flex justify-between">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => navigate("/admin/courses")}>
             <MoveLeft />
             <span>Back</span>
           </Button>
