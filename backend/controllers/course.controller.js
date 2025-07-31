@@ -25,7 +25,6 @@ const createCourse = async (req, res) => {
     const fileUri = getDataUri(req.file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     thumbnail = cloudResponse.secure_url;
-    console.log(thumbnail);
 
     course = await Course.create({
       title,
