@@ -12,14 +12,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import store from "@/store/store";
 import { Delete, Edit2, MoreHorizontal } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const CourseTable = () => {
-  const { adminCourses } = useSelector((store) => store.course);
+  const { adminCourses, searchCourseByText} = useSelector((store) => store.course);
   const [filterCourse, setFilterCourse] = useState(adminCourses);
+
+  useEffect(() => {
+    const filteredCourse = adminCourses?.length >=0 && adminCourses?.filter((courses) => {
+      if(!searchCourseByText){
+        return true;
+      }
+      return courses?.title?.toLowerCase().includes(searchCourseByText.toLowerCase());
+    });
+    setFilterCourse(filteredCourse);
+  },[adminCourses, searchCourseByText]);
+  
   return (
     <div>
       <Table>
@@ -33,7 +43,7 @@ const CourseTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-            {filterCourse.map((course) => (
+            {filterCourse?.map((course) => (
               <tr>
                 <TableCell>{course?.title}</TableCell>
                 <TableCell>{course?.createdAt.split('T')[0]}</TableCell>

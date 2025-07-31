@@ -4,7 +4,8 @@ const courseSlice = createSlice({
     name:"course",
     initialState:{
         allCourses:null,
-        adminCourses:null
+        adminCourses:null,
+        searchCourseByText:""
     },
     reducers:{
         setAllCourses:(state, action) => {
@@ -12,9 +13,12 @@ const courseSlice = createSlice({
         },
         setAdminCourses:(state, action) => {
             state.adminCourses = action.payload;
+        },
+        setSearchCourseByText:(state, action) => {
+            state.searchCourseByText = action.payload;
         }
     }
 });
 
-export const {setAllCourses, setAdminCourses} = courseSlice.actions;
+export const {setAllCourses, setAdminCourses, setSearchCourseByText} = courseSlice.actions;
 export default courseSlice.reducer;

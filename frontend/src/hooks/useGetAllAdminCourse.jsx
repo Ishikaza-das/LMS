@@ -15,7 +15,6 @@ const useGetAllAdminCourse = () => {
             if(response.data.success){
                 dispatch(setAdminCourses(response.data.course))
             }
-            console.log(user._id);
         } catch (error) {
             console.error(error);
         }
