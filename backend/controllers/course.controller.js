@@ -50,7 +50,13 @@ const createCourse = async (req, res) => {
 
 const getAllCourse = async (req, res) => {
   try {
-    const course = await Course.find()
+    const keyword = req.query.keyword || "";
+    const query = {
+      $or:[
+        {title: {$regex: keyword, $options: "i"}}
+      ]
+    }
+    const course = await Course.find(query)
       .populate({
         path: "instructor",
         select: "fullname",
