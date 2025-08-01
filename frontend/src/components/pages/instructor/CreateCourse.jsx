@@ -55,6 +55,8 @@ const CreateCourse = () => {
       console.log(response.data);
       if(response.data.success){
         toast.success(`${response.data.message}", Now you can add lectures"`);
+        const courseId = response.data.course._id;
+        navigate(`/admin/addlessonto/${courseId}`)
       }
     } catch (error) {
       console.error(error);
@@ -73,10 +75,10 @@ const CreateCourse = () => {
             <MoveLeft />
             <span>Back</span>
           </Button>
-          <Button variant="outline">
+          {/* <Button variant="outline">
             <Plus />
             <span>Add Lecture</span>
-          </Button>
+          </Button> */}
         </div>
         <div className="my-6 border border-gray-200 p-4 rounded-2xl">
           <form onSubmit={createCourseHandler}>
