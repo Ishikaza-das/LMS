@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {createCourse, getAllCourse, getInstructorCourse, updateCourse, deleteCourse} = require('../controllers/course.controller');
 const isAuthenticated = require('../middleware/authenticated');
-const singleUpload = require('../middleware/multer');
+const {singleUpload} = require('../middleware/multer');
 
 router.post('/createcourse',isAuthenticated, singleUpload,createCourse);
 router.get('/get',isAuthenticated,getAllCourse);

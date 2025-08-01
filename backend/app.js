@@ -5,6 +5,7 @@ require('dotenv').config({ quiet: true });
 
 const userRoute = require('./routes/user.route');
 const courseRoute = require('./routes/course.route');
+const lessonRoute = require('./routes/lesson.route');
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use(cookieParser());
 
 app.use('/lms/v1/user',userRoute);
 app.use('/lms/v1/course',courseRoute);
+app.use('/lms/v1/lesson',lessonRoute);
 
 module.exports = app;
