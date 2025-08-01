@@ -1,20 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 const LessonAdd = () => {
   const fileInputRef = useRef(null);
   const [selectedVideos, setSelectedVideos] = useState([]);
-  // const [input, setInput] = useState({
-  //   title:"",
-  //   content:""
-  // })
-
-  // const inputHandler = (e) => {
-  //   setInput({...input,[e.target.name]: e.target.value});
-  // }
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
@@ -42,18 +35,6 @@ const LessonAdd = () => {
             <Button type="submit">Upload</Button>
           </div>
 
-          {/* <div className="grid grid-cols-2 gap-4 my-4">
-            <div className="space-y-3">
-              <Label className="text-xl font-medium">Title</Label>
-              <Input name="title" onChange={inputHandler} value={input.value}/>
-            </div>
-
-            <div className="space-y-3">
-              <Label className="text-xl font-medium">Content</Label>
-              <Input name="content" onChange={inputHandler} value={input.value}/>
-            </div>
-          </div> */}
-
           <div className="flex flex-col pt-4 gap-4">
             <Input
               type="file"
@@ -79,11 +60,14 @@ const LessonAdd = () => {
                       className="rounded-md"
                       src={video.url}
                     />
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                       <p className="mt-1 text-sm text-gray-700 truncate">
                         {video.file.name.replace(/\.[^/.]+$/, "")}
                       </p>
-                      <Button>Status</Button>
+                      <div className="flex items-center gap-2 pt-2">
+                        <Switch/>
+                        <Label id="public">Public</Label>
+                      </div>
                     </div>
                   </div>
                 ))}
