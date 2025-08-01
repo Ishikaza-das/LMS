@@ -2,12 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Plus } from "lucide-react";
+import axios from "axios";
+import { Loader2, Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const LessonAdd = () => {
   const fileInputRef = useRef(null);
   const [selectedVideos, setSelectedVideos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
@@ -19,20 +24,68 @@ const LessonAdd = () => {
     const newVideoPreviews = newFiles.map((file) => ({
       file,
       url: URL.createObjectURL(file),
+      isPublic: false,
     }));
 
     setSelectedVideos((prev) => [...prev, ...newVideoPreviews]);
   };
 
+  const togglePublic = (index) => {
+    setSelectedVideos((prev) =>
+      prev.map((video, i) =>
+        i === index ? { ...video, isPublic: !video.isPublic } : video
+      )
+    );
+  };
+
+  const lectureHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    selectedVideos.forEach((video, index) => {
+      formData.append("videos", video.file);
+      formData.append(`status${index}`, video.isPublic);
+    });
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto my-4">
       <div className="my-6 border border-gray-200 rounded-2xl p-4">
-        <form>
+        <form onSubmit={lectureHandler}>
           <div className="flex justify-between">
             <p className="text-red-500 font-medium">
-              Students will see the file name as Title
+              Students will see the file name as Title. The Order you add the
+              order you see.
             </p>
-            <Button type="submit">Upload</Button>
+            {loading ? (
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Loader2 className="animate-spin" />
+                <span>Uploading...</span>
+              </Button>
+            ) : (
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                Upload
+              </Button>
+            )}
           </div>
 
           <div className="flex flex-col pt-4 gap-4">
@@ -65,8 +118,11 @@ const LessonAdd = () => {
                         {video.file.name.replace(/\.[^/.]+$/, "")}
                       </p>
                       <div className="flex items-center gap-2 pt-2">
-                        <Switch/>
-                        <Label id="public">Public</Label>
+                        <Switch
+                          checked={video.isPublic}
+                          onCheckedChange={() => togglePublic(index)}
+                        />
+                        <Label>Public</Label>
                       </div>
                     </div>
                   </div>

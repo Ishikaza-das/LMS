@@ -4,14 +4,8 @@ const getDataUri = require("../utils/datauri");
 
 const addLesson = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const {status} = req.body;
     courseId = req.params.id;
-    if (!title) {
-      return res.status(400).json({
-        message: "Something is missing",
-        success: false,
-      });
-    }
     let videoUrl = [];
     for (const files of req.files) {
       const fileUri = getDataUri(files);
@@ -19,9 +13,8 @@ const addLesson = async (req, res) => {
       videoUrl.push(cloudResponse.secure_url);
     }
     let lesson = await Lesson.create({
-      title,
-      content,
       videoUrl: cloudResponse.secure_url,
+      status,
       courseId,
     });
 
