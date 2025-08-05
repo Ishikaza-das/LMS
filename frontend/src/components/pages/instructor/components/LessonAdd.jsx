@@ -43,28 +43,31 @@ const LessonAdd = () => {
     e.preventDefault();
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
-      formData.append("videos", video.files);
+      formData.append("files", video.files);
       formData.append(`status${index}`, video.isPublic);
     });
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
-        formData,
-        courseId,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+     console.log('Sending request to:', `${import.meta.env.VITE_LESSON_API}/add/${params.id}`);
+    console.log('FormData contents:', Object.fromEntries(formData));
+    
+    const response = await axios.post(
+      `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true
+      }
+    );
       if (response.data.success) {
         toast.success(response.data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
-      console.error(error);
+      console.error('Full error:', error);
+    console.error('Response data:', error.response?.data);
+    toast.error(error.response?.data?.message || 'Upload failed');
     } finally {
       setLoading(false);
     }

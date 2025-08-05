@@ -1,6 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const cros = require('cors');
+const cors = require('cors');
 require('dotenv').config({ quiet: true });
 
 const userRoute = require('./routes/user.route');
@@ -9,10 +9,10 @@ const lessonRoute = require('./routes/lesson.route');
 
 const app = express();
 
-app.use(cros({
+app.use(cors({
     origin: process.env.FRONTEND,
-    methods:['GET','POST','DELETE','PUT'],
-    credentials:true,
+    methods: ['GET','POST','DELETE','PUT'],
+    credentials: true,
     allowedHeaders: ['Content-Type','Authorization'],
 }));
 
