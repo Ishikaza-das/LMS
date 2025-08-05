@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react";
 import CourseTable from "./components/CourseTable";
 import { useNavigate } from "react-router-dom";
 import useGetAllAdminCourse from "@/hooks/useGetAllAdminCourse";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSearchCourseByText } from "@/store/courseSlice";
 
 const ICourses = () => {
-  useGetAllAdminCourse();
+  const {user} = useSelector(store => store.auth);
+  const userId = user?._id
+  useGetAllAdminCourse(userId);
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const dispatch = useDispatch();

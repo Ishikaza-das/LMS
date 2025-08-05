@@ -1,15 +1,15 @@
 import { setAdminCourses } from '@/store/courseSlice';
 import axios from 'axios';
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const useGetAllAdminCourse = () => {
-    const {user} = useSelector(store => store.auth);
+const useGetAllAdminCourse = (userId) => {
     const dispatch = useDispatch();
   useEffect(() => {
     const fetchAllCourses = async () => {
+        if(!userId) return
         try {
-            const response = await axios.get(`${import.meta.env.VITE_COURSE_API}/get/instructorcourse/${user._id}`, {
+            const response = await axios.get(`${import.meta.env.VITE_COURSE_API}/get/instructorcourse/${userId}`, {
                 withCredentials: true
             })
             if(response.data.success){
@@ -20,7 +20,7 @@ const useGetAllAdminCourse = () => {
         }
     } 
     fetchAllCourses();
-  },[]);
+  },[userId]);
 }
 
 export default useGetAllAdminCourse;

@@ -4,7 +4,7 @@ const courseSlice = createSlice({
     name:"course",
     initialState:{
         allCourses:null,
-        adminCourses:null,
+        adminCourses:[],
         searchCourseByText:""
     },
     reducers:{

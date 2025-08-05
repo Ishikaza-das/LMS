@@ -13,6 +13,7 @@ const LessonAdd = () => {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  const courseId = params.id;
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
@@ -21,9 +22,9 @@ const LessonAdd = () => {
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
 
-    const newVideoPreviews = newFiles.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
+    const newVideoPreviews = newFiles.map((files) => ({
+      files,
+      url: URL.createObjectURL(files),
       isPublic: false,
     }));
 
@@ -42,7 +43,7 @@ const LessonAdd = () => {
     e.preventDefault();
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
-      formData.append("videos", video.file);
+      formData.append("videos", video.files);
       formData.append(`status${index}`, video.isPublic);
     });
     try {
@@ -50,6 +51,7 @@ const LessonAdd = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
         formData,
+        courseId,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -62,6 +64,7 @@ const LessonAdd = () => {
       }
     } catch (error) {
       toast.error(error.response.data.message);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -115,7 +118,7 @@ const LessonAdd = () => {
                     />
                     <div className="flex justify-between items-center">
                       <p className="mt-1 text-sm text-gray-700 truncate">
-                        {video.file.name.replace(/\.[^/.]+$/, "")}
+                        {video?.files?.name.replace(/\.[^/.]+$/, "")}
                       </p>
                       <div className="flex items-center gap-2 pt-2">
                         <Switch

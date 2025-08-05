@@ -12,13 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Delete, Edit2, MoreHorizontal } from "lucide-react";
+import { Delete, Edit2, MoreHorizontal, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CourseTable = () => {
   const { adminCourses, searchCourseByText} = useSelector((store) => store.course);
   const [filterCourse, setFilterCourse] = useState(adminCourses);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const filteredCourse = adminCourses?.length >=0 && adminCourses?.filter((courses) => {
@@ -57,6 +59,11 @@ const CourseTable = () => {
                       <div className="flex items-center gap-4 w-fit cursor-pointer">
                         <Edit2 />
                         <span>Edit</span>
+                      </div>
+                      <br />
+                      <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => navigate(`/admin/addlessonto/${course._id}`)}>
+                        <Plus />
+                        <span>Add Lessons</span>
                       </div>
                       <br />
                       <div className="flex items-center gap-4 w-fit cursor-pointer">
