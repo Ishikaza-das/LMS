@@ -4,29 +4,57 @@ const getDataUri = require("../utils/datauri");
 
 const addLesson = async (req, res) => {
   try {
-    const {status} = req.body;
-    courseId = req.params.id;
-    let videoUrl = [];
-    for (const files of req.files) {
-      const fileUri = getDataUri(files);
-      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-      videoUrl.push(cloudResponse.secure_url);
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        message: "No files were uploaded",
+        success: false
+      });
     }
-    let lesson = await Lesson.create({
-      videoUrl: cloudResponse.secure_url,
-      status,
-      courseId,
-    });
+
+    const courseId = req.params.id;
+    const uploadedLessons = [];
+
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i];
+      const status = req.body[`status${i}`] || 'private';
+
+      try {
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+          resource_type: 'video'
+        });
+
+        const lesson = await Lesson.create({
+          courseId,
+          videoUrl: cloudResponse.secure_url,
+          status,
+          order: i + 1
+        });
+
+        uploadedLessons.push(lesson);
+      } catch (uploadError) {
+        console.error(`Error uploading file ${i}:`, uploadError);
+      }
+    }
+
+    if (uploadedLessons.length === 0) {
+      return res.status(400).json({
+        message: "Failed to upload any lessons",
+        success: false
+      });
+    }
 
     return res.status(200).json({
-      message: "Lesson Added",
-      lesson,
-      success: true,
+      message: `Successfully uploaded ${uploadedLessons.length} lessons`,
+      lessons: uploadedLessons,
+      success: true
     });
+
   } catch (error) {
+    console.error('Lesson upload error:', error);
     return res.status(400).json({
-      message: "Failed to add lesson",
-      success: false,
+      message: error.message || "Failed to add lesson",
+      success: false
     });
   }
 };

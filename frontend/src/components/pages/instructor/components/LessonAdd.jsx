@@ -13,22 +13,19 @@ const LessonAdd = () => {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
-  const courseId = params.id;
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files);
-
-    const newVideoPreviews = newFiles.map((files) => ({
-      files,
-      url: URL.createObjectURL(files),
+   const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newVideoPreviews = files.map(file => ({
+      file: file,
       isPublic: false,
+      name: file.name
     }));
-
-    setSelectedVideos((prev) => [...prev, ...newVideoPreviews]);
+    setSelectedVideos(prev => [...prev, ...newVideoPreviews]);
   };
 
   const togglePublic = (index) => {
@@ -41,16 +38,17 @@ const LessonAdd = () => {
 
   const lectureHandler = async (e) => {
     e.preventDefault();
+     if (selectedVideos.length === 0) {
+      toast.error('Please select at least one video file');
+      return;
+    }
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
-      formData.append("files", video.files);
-      formData.append(`status${index}`, video.isPublic);
+      formData.append("files", video.file);
+      formData.append(`status${index}`, video.isPublic ? 'public' : 'private');
     });
     try {
       setLoading(true);
-     console.log('Sending request to:', `${import.meta.env.VITE_LESSON_API}/add/${params.id}`);
-    console.log('FormData contents:', Object.fromEntries(formData));
-    
     const response = await axios.post(
       `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
       formData,
@@ -63,11 +61,11 @@ const LessonAdd = () => {
     );
       if (response.data.success) {
         toast.success(response.data.message);
+        setSelectedVideos([]);
       }
     } catch (error) {
-      console.error('Full error:', error);
-    console.error('Response data:', error.response?.data);
-    toast.error(error.response?.data?.message || 'Upload failed');
+      console.error('Upload error:', error);
+      toast.error(error.response?.data?.message || 'Failed to upload videos');
     } finally {
       setLoading(false);
     }
@@ -121,7 +119,7 @@ const LessonAdd = () => {
                     />
                     <div className="flex justify-between items-center">
                       <p className="mt-1 text-sm text-gray-700 truncate">
-                        {video?.files?.name.replace(/\.[^/.]+$/, "")}
+                        {video?.name.replace(/\.[^/.]+$/, "")}
                       </p>
                       <div className="flex items-center gap-2 pt-2">
                         <Switch
