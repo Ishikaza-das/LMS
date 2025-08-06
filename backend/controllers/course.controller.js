@@ -82,7 +82,9 @@ const getAllCourse = async (req, res) => {
 const getInstructorCourse = async (req, res) => {
   try {
     const userId = req.id;
-    const course = await Course.find({ instructor: userId });
+    const course = await Course.find({ instructor: userId }).populate({
+      path:'lessons'
+    });
     if (!course || course.length === 0) {
       return res.status(400).json({
         message: "No courses found for this instructor",
