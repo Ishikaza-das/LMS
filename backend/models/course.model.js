@@ -8,7 +8,7 @@ const courseSchema = mongoose.Schema({
     level:{type:String, enum:['beginner','intermediate','advance'],required:true},
     thumbnail:{type:String, default:''},
     instructor:{type:mongoose.Schema.Types.ObjectId, ref:'User',required:true},
-    lessons:[{type:mongoose.Schema.Types.ObjectId, ref:'Lesson'}],
+    lessons:[{type:mongoose.Schema.Types.ObjectId, ref:'Lessons'}],
     studentsEnrolled:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}]
 },{timestamps:true});
 

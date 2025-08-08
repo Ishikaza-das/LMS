@@ -10,10 +10,10 @@ const lessonRoute = require('./routes/lesson.route');
 const app = express();
 
 app.use(cors({
-    origin: process.env.FRONTEND,
-    methods: ['GET','POST','DELETE','PUT'],
-    credentials: true,
-    allowedHeaders: ['Content-Type','Authorization'],
+  origin: process.env.FRONTEND || 'http://localhost:5173',
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
 app.use(express.json());

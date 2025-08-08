@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { setUser } from "@/store/authSlice";
+import { resetCourseState } from "@/store/courseSlice";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -24,6 +25,7 @@ const Navbar = () => {
       );
       if (response.data.success) {
         dispatch(setUser(null));
+        dispatch(resetCourseState());
         toast.success(response.data.message);
         navigate("/");
       }

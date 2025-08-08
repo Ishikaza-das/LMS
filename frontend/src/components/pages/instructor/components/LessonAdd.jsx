@@ -17,20 +17,20 @@ const LessonAdd = () => {
   const params = useParams();
 
   const courseId = params.id;
-  useGetCourseLessons(courseId)
+  useGetCourseLessons(courseId);
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
   };
 
-   const handleFileChange = (e) => {
+  const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    const newVideoPreviews = files.map(file => ({
+    const newVideoPreviews = files.map((file) => ({
       file: file,
       isPublic: false,
-      name: file.name
+      name: file.name,
     }));
-    setSelectedVideos(prev => [...prev, ...newVideoPreviews]);
+    setSelectedVideos((prev) => [...prev, ...newVideoPreviews]);
   };
 
   const togglePublic = (index) => {
@@ -43,34 +43,34 @@ const LessonAdd = () => {
 
   const lectureHandler = async (e) => {
     e.preventDefault();
-     if (selectedVideos.length === 0) {
-      toast.error('Please select at least one video file');
+    if (selectedVideos.length === 0) {
+      toast.error("Please select at least one video file");
       return;
     }
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
       formData.append("files", video.file);
-      formData.append(`status${index}`, video.isPublic ? 'public' : 'private');
+      formData.append(`status${index}`, video.isPublic ? "public" : "private");
     });
     try {
       setLoading(true);
-    const response = await axios.post(
-      `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true
-      }
-    );
+      const response = await axios.post(
+        `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
       if (response.data.success) {
         toast.success(response.data.message);
         setSelectedVideos([]);
       }
     } catch (error) {
-      console.error('Upload error:', error);
-      toast.error(error.response?.data?.message || 'Failed to upload videos');
+      console.error("Upload error:", error);
+      toast.error(error.response?.data?.message || "Failed to upload videos");
     } finally {
       setLoading(false);
     }
@@ -141,7 +141,7 @@ const LessonAdd = () => {
           </div>
         </form>
       </div>
-      <GetLessons/>
+      <GetLessons />
     </div>
   );
 };

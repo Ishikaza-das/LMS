@@ -86,8 +86,9 @@ const login = async (req, res) => {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "None", 
-      secure: true, 
+      sameSite: "None",
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     user = {
       _id: user._id,
@@ -97,19 +98,11 @@ const login = async (req, res) => {
       profilephoto: user.profilephoto,
     };
 
-    return res
-      .status(200)
-      .cookie("token", token, {
-        maxAge: 1 * 21 * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-      })
-      .json({
-        message: `Welcome back ${user.fullname}`,
-        user,
-        success: true,
-      });
+    return res.status(200).json({
+      message: `Welcome back ${user.fullname}`,
+      user,
+      success: true,
+    });
   } catch (error) {
     res.status(400).json({
       message: error.message,
