@@ -27,6 +27,7 @@ const LessonAdd = () => {
     const files = Array.from(e.target.files);
     const newVideoPreviews = files.map((file) => ({
       file: file,
+       url: URL.createObjectURL(file),
       isPublic: false,
       name: file.name,
     }));
@@ -49,6 +50,7 @@ const LessonAdd = () => {
     }
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
+      if (!video.file) return;
       formData.append("files", video.file);
       formData.append(`status${index}`, video.isPublic ? "public" : "private");
     });

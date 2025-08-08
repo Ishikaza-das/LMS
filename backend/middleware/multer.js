@@ -1,16 +1,16 @@
-const multer = require('multer');
+const multer = require("multer");
 
 const storage = multer.memoryStorage();
-const singleUpload = multer({storage}).single("file");
+const singleUpload = multer({ storage }).single("file");
 const multipleUpload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('video/')) {
+    if (file.mimetype.startsWith("video/")) {
       cb(null, true);
     } else {
-      cb(new Error('Only video files are allowed'));
+      cb(new Error("Only video files are allowed"));
     }
   }
-}).array('files'); 
+}).array("files");
 
-module.exports = {singleUpload, multipleUpload};
+module.exports = { singleUpload, multipleUpload };
