@@ -7,12 +7,17 @@ import { Loader2, Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+import GetLessons from "./GetLessons";
+import useGetCourseLessons from "@/hooks/useGetCourseLessons";
 
 const LessonAdd = () => {
   const fileInputRef = useRef(null);
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
+
+  const courseId = params.id;
+  useGetCourseLessons(courseId)
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
@@ -136,6 +141,7 @@ const LessonAdd = () => {
           </div>
         </form>
       </div>
+      <GetLessons/>
     </div>
   );
 };
