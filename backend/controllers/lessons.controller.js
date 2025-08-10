@@ -50,28 +50,4 @@ const addLesson = async (req, res) => {
   }
 };
 
-const courseLessons = async (req, res) => {
-  try {
-    const courseId = req.params.id;
-    const lessons = await Lesson.find({ courseId });
-    if (!lessons.length) {
-      return res.status(400).json({
-        message: "No Lesson for this course",
-        success: false,
-      });
-    }
-    const lessonLength = lessons.length;
-    return res.status(200).json({
-      lessons,
-      lessonLength,
-      success: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: "Unable to show lessons",
-      success: false,
-    });
-  }
-};
-
 module.exports = { addLesson, courseLessons };
