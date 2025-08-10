@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setUser } from "@/store/authSlice";
 import { resetCourseState } from "@/store/courseSlice";
+import { resetLessonState } from "@/store/lessonSlice";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -26,6 +27,7 @@ const Navbar = () => {
       if (response.data.success) {
         dispatch(setUser(null));
         dispatch(resetCourseState());
+        dispatch(resetLessonState());
         toast.success(response.data.message);
         navigate("/");
       }
@@ -68,7 +70,7 @@ const Navbar = () => {
               <Avatar className="cursor-pointer">
                 <AvatarImage
                   className="w-full object-cover"
-                  src={user?.profilephoto || "https://github.com/shadcn.png"}
+                  src={user?.profilephoto}
                 />
               </Avatar>
             </PopoverTrigger>
@@ -78,7 +80,7 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage
                       className="w-full object-cover"
-                      src={user?.profilephoto || "https://github.com/shadcn.png"}
+                      src={user?.profilephoto}
                     />
                   </Avatar>
                   <div>

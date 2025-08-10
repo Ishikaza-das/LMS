@@ -5,9 +5,8 @@ import { Switch } from "@/components/ui/switch";
 import axios from "axios";
 import { Loader2, Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import GetLessons from "./GetLessons";
 import useGetCourseLessons from "@/hooks/useGetCourseLessons";
 
 const LessonAdd = () => {
@@ -15,6 +14,7 @@ const LessonAdd = () => {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  const navigate = useNavigate();
 
   const courseId = params.id;
   useGetCourseLessons(courseId);
@@ -64,6 +64,7 @@ const LessonAdd = () => {
         }
       );
       if (response.data.success) {
+        navigate("/admin/courses")
         toast.success(response.data.message);
         setSelectedVideos([]);
       }
@@ -140,7 +141,6 @@ const LessonAdd = () => {
           </div>
         </form>
       </div>
-      <GetLessons />
     </div>
   );
 };

@@ -10,7 +10,7 @@ const useGetCourseLessons = (courseId) => {
         const fetchLessons = async () =>{
             try {
                 const response = await axios.get(`${import.meta.env.VITE_LESSON_API}/get/${courseId}`,{withCredentials: true})
-            if(response.data.suceess){
+            if(response.data.success){
                 dispatch(setCourseLessons(response.data.lessons));
                 console.log(response.data);
             }
@@ -19,7 +19,7 @@ const useGetCourseLessons = (courseId) => {
             }
         }
         fetchLessons();
-    },[courseId])
+    },[courseId, dispatch])
 }
 
 export default useGetCourseLessons
