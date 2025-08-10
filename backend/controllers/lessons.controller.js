@@ -50,4 +50,4 @@ const addLesson = async (req, res) => {
   }
 };
 
-module.exports = { addLesson, courseLessons };
+module.exports = { addLesson };
