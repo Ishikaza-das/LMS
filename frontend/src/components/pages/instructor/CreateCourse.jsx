@@ -75,10 +75,6 @@ const CreateCourse = () => {
             <MoveLeft />
             <span>Back</span>
           </Button>
-          {/* <Button variant="outline">
-            <Plus />
-            <span>Add Lecture</span>
-          </Button> */}
         </div>
         <div className="my-6 border border-gray-200 p-4 rounded-2xl">
           <form onSubmit={createCourseHandler}>

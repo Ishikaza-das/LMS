@@ -23,9 +23,10 @@ const LessonAdd = () => {
     const files = Array.from(e.target.files);
     const newVideoPreviews = files.map((file) => ({
       file: file,
-       url: URL.createObjectURL(file),
+      url: URL.createObjectURL(file),
       isPublic: false,
-      name: file.name,
+      name: file.name.replace(/\.[^/.]+$/, ""),
+      title: file.name.replace(/\.[^/.]+$/, ""), 
     }));
     setSelectedVideos((prev) => [...prev, ...newVideoPreviews]);
   };
@@ -34,6 +35,14 @@ const LessonAdd = () => {
     setSelectedVideos((prev) =>
       prev.map((video, i) =>
         i === index ? { ...video, isPublic: !video.isPublic } : video
+      )
+    );
+  };
+
+  const handleTitleChange = (index, value) => {
+    setSelectedVideos((prev) =>
+      prev.map((video, i) =>
+        i === index ? { ...video, title: value } : video
       )
     );
   };
@@ -47,20 +56,19 @@ const LessonAdd = () => {
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
       if (!video.file) return;
-      formData.append('files', video.file); 
+      formData.append("files", video.file);
       formData.append(`status${index}`, video.isPublic ? "public" : "private");
+      formData.append(`title${index}`, video.title || `Lesson ${index + 1}`);
     });
     try {
       setLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
         formData,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       if (response.data.success) {
-        navigate("/admin/courses")
+        navigate("/admin/courses");
         toast.success(response.data.message);
         setSelectedVideos([]);
       }
@@ -78,8 +86,7 @@ const LessonAdd = () => {
         <form onSubmit={lectureHandler}>
           <div className="flex justify-between">
             <p className="text-red-500 font-medium">
-              Students will see the file name as Title. The Order you add the
-              order you see.
+              Students will see the file name as Title. The order you add is the order displayed.
             </p>
             {loading ? (
               <Button className="bg-blue-600 hover:bg-blue-700">
@@ -118,11 +125,15 @@ const LessonAdd = () => {
                       className="rounded-md"
                       src={video.url}
                     />
-                    <div className="flex justify-between items-center">
-                      <p className="mt-1 text-sm text-gray-700 truncate">
-                        {video?.name.replace(/\.[^/.]+$/, "")}
-                      </p>
-                      <div className="flex items-center gap-2 pt-2">
+                    <div className="flex flex-col gap-2 mt-2">
+                      <Input
+                        value={video.title}
+                        onChange={(e) =>
+                          handleTitleChange(index, e.target.value)
+                        }
+                        placeholder="Name of video (e.g. Introduction)"
+                      />
+                      <div className="flex items-center gap-2">
                         <Switch
                           checked={video.isPublic}
                           onCheckedChange={() => togglePublic(index)}
@@ -140,5 +151,6 @@ const LessonAdd = () => {
     </div>
   );
 };
+
 
 export default LessonAdd;

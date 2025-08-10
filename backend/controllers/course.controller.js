@@ -4,7 +4,7 @@ const cloudinary = require("../utils/cloudinary");
 
 const createCourse = async (req, res) => {
   try {
-    const { title, description, price, category, level} = req.body;
+    const {title, description, price, category, level} = req.body;
     const userId = req.id;
 
     if (!title || !description || !price || !category || !level) {
@@ -15,12 +15,6 @@ const createCourse = async (req, res) => {
     }
 
     let course = await Course.findOne({ title });
-    if (course) {
-      return res.status(400).json({
-        message: "You can't register same course",
-        success: false,
-      });
-    }
 
     const fileUri = getDataUri(req.file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);

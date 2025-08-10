@@ -18,6 +18,7 @@ const addLesson = async (req, res) => {
     for (let i = 0; i < req.files.length; i++) {
       const file = req.files[i];
       const status = req.body[`status${i}`] || "private";
+      const title = req.body[`title${i}`] || `Lesson ${i + 1}`;
 
       const fileUri = getDataUri(file);
       const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
@@ -26,6 +27,7 @@ const addLesson = async (req, res) => {
 
       const lesson = await Lesson.create({
         courseId,
+        title, 
         videoUrl: cloudResponse.secure_url,
         status,
         order: i + 1,
@@ -33,7 +35,7 @@ const addLesson = async (req, res) => {
 
       uploadedLessons.push(lesson);
 
-      await Course.findByIdAndUpdate(courseId, {$push: {lessons: lesson._id}});
+      await Course.findByIdAndUpdate(courseId, { $push: { lessons: lesson._id } });
     }
 
     return res.status(200).json({
@@ -46,8 +48,8 @@ const addLesson = async (req, res) => {
       message: error.message || "Failed to add lessons",
       success: false,
     });
-    // console.log(error);
   }
 };
+
 
 module.exports = { addLesson };

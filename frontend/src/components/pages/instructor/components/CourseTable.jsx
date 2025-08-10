@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Delete, Edit2, MoreHorizontal, Plus } from "lucide-react";
+import { Delete, MoreHorizontal, Plus, View } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -56,9 +56,9 @@ const CourseTable = () => {
                       <MoreHorizontal />
                     </PopoverTrigger>
                     <PopoverContent className="w-32">
-                      <div className="flex items-center gap-4 w-fit cursor-pointer">
-                        <Edit2 />
-                        <span>Edit</span>
+                      <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => navigate(`/course/${course._id}`)}>
+                        <View/>
+                        <span>View</span>
                       </div>
                       <br />
                       <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => navigate(`/admin/addlessonto/${course._id}`)}>
