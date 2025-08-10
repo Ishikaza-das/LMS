@@ -7,7 +7,6 @@ import { Loader2, Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import useGetCourseLessons from "@/hooks/useGetCourseLessons";
 
 const LessonAdd = () => {
   const fileInputRef = useRef(null);
@@ -15,9 +14,6 @@ const LessonAdd = () => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
-
-  const courseId = params.id;
-  useGetCourseLessons(courseId);
 
   const handleFileClick = () => {
     fileInputRef.current?.click();
