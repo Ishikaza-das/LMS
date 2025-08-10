@@ -21,7 +21,7 @@ const register = async (req, res) => {
         success: false,
       });
     }
-
+    let profilephoto = "https://github.com/shadcn.png";
     if (req.file) {
       try {
         const fileUri = getDataUri(req.file);

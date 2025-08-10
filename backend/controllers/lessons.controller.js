@@ -1,6 +1,7 @@
 const Lesson = require("../models/lessons.model");
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/datauri");
+const Course = require("../models/course.model");
 
 const addLesson = async (req, res) => {
   try {
@@ -31,6 +32,8 @@ const addLesson = async (req, res) => {
       });
 
       uploadedLessons.push(lesson);
+
+      await Course.findByIdAndUpdate(courseId, {$push: {lessons: lesson._id}});
     }
 
     return res.status(200).json({
@@ -51,7 +54,7 @@ const courseLessons = async (req, res) => {
   try {
     const courseId = req.params.id;
     const lessons = await Lesson.find({ courseId });
-    if (!lessons) {
+    if (!lessons.length) {
       return res.status(400).json({
         message: "No Lesson for this course",
         success: false,
