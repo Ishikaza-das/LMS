@@ -15,6 +15,7 @@ const courseSlice = createSlice({
         },
         resetCourseState:(state) => {
             state.adminCourses = [];
+            state.searchCourseByText = "";
         }
     }
 });

@@ -51,7 +51,7 @@ const LessonAdd = () => {
     const formData = new FormData();
     selectedVideos.forEach((video, index) => {
       if (!video.file) return;
-      formData.append("files", video.file);
+      formData.append('files', video.file); 
       formData.append(`status${index}`, video.isPublic ? "public" : "private");
     });
     try {
@@ -60,9 +60,6 @@ const LessonAdd = () => {
         `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
           withCredentials: true,
         }
       );

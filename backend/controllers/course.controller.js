@@ -81,7 +81,7 @@ const getAllCourse = async (req, res) => {
 
 const getInstructorCourse = async (req, res) => {
   try {
-    const userId = req.id;
+    const userId = req.params.id;
     const course = await Course.find({ instructor: userId }).populate({
       path:'lessons'
     });
