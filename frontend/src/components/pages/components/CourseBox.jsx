@@ -41,7 +41,7 @@ const CourseBox = () => {
         <h1 className="text-right font-medium text-xl text-gray-500">
           By {singleCourse?.instructor?.fullname}
         </h1>
-        <p className="text-justify my-6 md:text-lg">
+        <p className="text-justify my-6 md:text-lg text-gray-500">
           {singleCourse?.description}
         </p>
         <div className="text-right">
