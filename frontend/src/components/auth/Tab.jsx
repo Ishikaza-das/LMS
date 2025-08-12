@@ -7,7 +7,7 @@ const Tab = () => {
   const [activeTab, setActiveTab ] = useState("login");
   return (
     <div className="max-w-7xl mx-auto flex items-center justify-center my-20">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-1/2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-fit lg:w-1/2">
         <TabsList className="bg-slate-300 h-10 px-2 gap-2 w-full">
           <TabsTrigger
             value="login"

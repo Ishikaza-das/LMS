@@ -85,7 +85,7 @@ const LessonAdd = () => {
       <div className="my-6 border border-gray-200 rounded-2xl p-4">
         <form onSubmit={lectureHandler}>
           <div className="flex justify-between">
-            <p className="text-red-500 font-medium">
+            <p className="text-red-500 font-medium w-1/2 text-justify">
               Students will see the file name as Title. The order you add is the order displayed.
             </p>
             {loading ? (
@@ -116,7 +116,7 @@ const LessonAdd = () => {
             </Button>
 
             {selectedVideos.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-scroll">
                 {selectedVideos.map((video, index) => (
                   <div key={index} className="border rounded-lg p-2">
                     <video

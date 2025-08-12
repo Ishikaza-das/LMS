@@ -32,53 +32,62 @@ const CourseTable = () => {
     setFilterCourse(filteredCourse);
   },[adminCourses, searchCourseByText]);
   
-  return (
-    <div>
-      <Table>
-        <TableCaption>A List of Your recent courses</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Course Name</TableHead>
-            <TableHead>Created At</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead className="text-right">Actioon</TableHead>
+ return (
+  <div className="w-full overflow-x-auto">
+    <Table className="min-w-[600px]">
+      <TableCaption>A List of Your recent courses</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Course Name</TableHead>
+          <TableHead>Created At</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead className="text-right">Action</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {filterCourse?.map((course) => (
+          <TableRow key={course?._id}>
+            <TableCell>{course?.title}</TableCell>
+            <TableCell>{course?.createdAt.split("T")[0]}</TableCell>
+            <TableCell>₹ {course?.price}</TableCell>
+            <TableCell className="text-right">
+              <Popover>
+                <PopoverTrigger>
+                  <MoreHorizontal />
+                </PopoverTrigger>
+                <PopoverContent className="w-32">
+                  <div
+                    className="flex items-center gap-4 w-fit cursor-pointer"
+                    onClick={() => navigate(`/course/${course._id}`)}
+                  >
+                    <View />
+                    <span>View</span>
+                  </div>
+                  <br />
+                  <div
+                    className="flex items-center gap-4 w-fit cursor-pointer"
+                    onClick={() =>
+                      navigate(`/admin/addlessonto/${course._id}`)
+                    }
+                  >
+                    <Plus />
+                    <span>Add Lessons</span>
+                  </div>
+                  <br />
+                  <div className="flex items-center gap-4 w-fit cursor-pointer">
+                    <Delete />
+                    <span>Delete</span>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-            {filterCourse?.map((course) => (
-              <tr>
-                <TableCell>{course?.title}</TableCell>
-                <TableCell>{course?.createdAt.split('T')[0]}</TableCell>
-                <TableCell>₹ {course?.price}</TableCell>
-                <TableCell className="text-right">
-                  <Popover>
-                    <PopoverTrigger>
-                      <MoreHorizontal />
-                    </PopoverTrigger>
-                    <PopoverContent className="w-32">
-                      <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => navigate(`/course/${course._id}`)}>
-                        <View/>
-                        <span>View</span>
-                      </div>
-                      <br />
-                      <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => navigate(`/admin/addlessonto/${course._id}`)}>
-                        <Plus />
-                        <span>Add Lessons</span>
-                      </div>
-                      <br />
-                      <div className="flex items-center gap-4 w-fit cursor-pointer">
-                        <Delete />
-                        <span>Delete</span>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </TableCell>
-              </tr>
-            ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
+        ))}
+      </TableBody>
+    </Table>
+  </div>
+);
+
 };
 
 export default CourseTable;

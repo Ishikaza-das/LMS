@@ -26,22 +26,22 @@ const CourseBox = () => {
   },[params.id, dispatch]);
 
   return (
-    <div className="flex flex-row p-4 gap-10">
-      <div className="w-1/2">
+    <div className="flex flex-col md:flex-row p-4 gap-10 border border-gray-300 rounded-md">
+      <div className="w-full lg:w-1/2">
         <img
           src={singleCourse?.thumbnail}
           alt=""
-          className="w-full object-fill h-[400px]"
+          className="w-full object-fill md:h-[300px] lg:h-[400px]"
         />
       </div>
-      <div className="w-1/2">
-        <h1 className="text-right font-bold text-6xl text-gray-600">
+      <div className="w-full md:w-1/2">
+        <h1 className="text-right font-bold text-3xl lg:text-6xl text-gray-600">
           {singleCourse?.title}
         </h1>
         <h1 className="text-right font-medium text-xl text-gray-500">
           By {singleCourse?.instructor?.fullname}
         </h1>
-        <p className="text-justify my-6">
+        <p className="text-justify my-6 md:text-lg">
           {singleCourse?.description}
         </p>
         <div className="text-right">
