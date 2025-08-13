@@ -161,7 +161,7 @@ const deleteCourse = async (req, res) => {
     if (!course) {
       return res.status(400).json({
         message: "Course not found",
-        success: true,
+        success: false,
       });
     }
     return res.status(200).json({
