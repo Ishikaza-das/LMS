@@ -122,7 +122,7 @@ const EditCourse = ({ open, setOpen }) => {
             <Textarea
               type="text"
               name="description"
-              className="col-span-3"
+              className="col-span-3 h-28"
               value={input.description}
               onChange={inputHandler}
             />
