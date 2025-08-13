@@ -52,7 +52,7 @@ const CreateCourse = () => {
           "Content-Type":"multipart/form-data"
         }, withCredentials: true
       })
-      console.log(response.data);
+      // console.log(response.data);
       if(response.data.success){
         toast.success(`${response.data.message}", Now you can add lectures"`);
         const courseId = response.data.course._id;
