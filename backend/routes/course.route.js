@@ -9,7 +9,7 @@ router.post('/createcourse',isAuthenticated, singleUpload,createCourse);
 router.get('/get',isAuthenticated,getAllCourse);
 router.get('/get/instructorcourse/:id',isAuthenticated,getInstructorCourse);
 router.get('/get/course/:id',isAuthenticated,getCourseById);
-router.put('/update/:id',isAuthenticated,updateCourse);
+router.put('/update/:id',isAuthenticated,singleUpload,updateCourse);
 router.delete('/delete/:id',isAuthenticated,deleteCourse);
 
 module.exports = router;

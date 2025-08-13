@@ -138,13 +138,13 @@ const updateCourse = async (req, res) => {
     if (!course) {
       return res.status(400).json({
         message: "Course not found",
-        success: true,
+        success: false,
       });
     }
     return res.status(200).json({
       message: "Course updated.",
       course,
-      success: false,
+      success: true,
     });
   } catch (error) {
     return res.status(400).json({
