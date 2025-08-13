@@ -12,15 +12,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { setAdminCourses } from "@/store/courseSlice";
+import axios from "axios";
 import { Delete, MoreHorizontal, Plus, View } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const CourseTable = () => {
   const { adminCourses, searchCourseByText} = useSelector((store) => store.course);
   const [filterCourse, setFilterCourse] = useState(adminCourses);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const deleteCourse = async (id) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_COURSE_API}/delete/${id}`,{withCredentials: true});
+      if(response.data.success){
+        toast.success(response.data.message);
+        dispatch(setAdminCourses(adminCourses.filter((course) => course._id !== id)));
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  }
 
   useEffect(() => {
     const filteredCourse = adminCourses?.length >=0 && adminCourses?.filter((courses) => {
@@ -74,7 +91,7 @@ const CourseTable = () => {
                     <span>Add Lessons</span>
                   </div>
                   <br />
-                  <div className="flex items-center gap-4 w-fit cursor-pointer">
+                  <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => deleteCourse(course._id)}>
                     <Delete />
                     <span>Delete</span>
                   </div>
