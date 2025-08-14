@@ -101,12 +101,10 @@ const getCourseById = async (req, res) => {
     const courseId = req.params.id;
     const course = await Course.findById(courseId).populate({
       path: "lessons",
-      path: "studentsEnrolled",
     }).populate({
         path: "instructor",
         select: "fullname",
       })
-      .sort({ createdAt: -1 });;
     if (!course) {
       return res.status(400).json({
         message: "Course not found",
