@@ -9,6 +9,7 @@ const courseSchema = mongoose.Schema({
     thumbnail:{type:String, default:''},
     instructor:{type:mongoose.Schema.Types.ObjectId, ref:'User',required:true},
     lessons:[{type:mongoose.Schema.Types.ObjectId, ref:'Lessons'}],
+    status:{type:String, enum:['published','unpublished'],default:'unpublished'},
     studentsEnrolled:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}]
 },{timestamps:true});
 

@@ -36,6 +36,7 @@ const addLesson = async (req, res) => {
       uploadedLessons.push(lesson);
 
       await Course.findByIdAndUpdate(courseId, { $push: { lessons: lesson._id } });
+      await Course.findByIdAndUpdate(courseId, {status: "published"});
     }
 
     return res.status(200).json({
