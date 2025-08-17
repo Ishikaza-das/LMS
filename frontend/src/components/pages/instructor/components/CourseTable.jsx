@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
@@ -58,6 +59,7 @@ const CourseTable = () => {
           <TableHead>Course Name</TableHead>
           <TableHead>Created At</TableHead>
           <TableHead>Price</TableHead>
+          <TableHead>Status</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -67,6 +69,11 @@ const CourseTable = () => {
             <TableCell>{course?.title}</TableCell>
             <TableCell>{course?.createdAt.split("T")[0]}</TableCell>
             <TableCell>₹ {course?.price}</TableCell>
+            <TableCell>
+              {
+              course?.status === "published" ?  <Badge className="bg-green-500">{course?.status.toUpperCase()}</Badge> : <Badge className="bg-red-500">{course?.status.toUpperCase()}</Badge> 
+            } 
+            </TableCell>
             <TableCell className="text-right">
               <Popover>
                 <PopoverTrigger>

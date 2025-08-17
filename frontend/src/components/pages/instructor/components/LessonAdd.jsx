@@ -65,7 +65,9 @@ const LessonAdd = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_LESSON_API}/add/${params.id}`,
         formData,
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" }
+         }
       );
       if (response.data.success) {
         navigate("/admin/courses");
