@@ -54,7 +54,7 @@ const LessonBox = ({ course }) => {
             <></>
           )}
         </div>
-        <EditLesson open={open} setOpen={setOpen} />
+        <EditLesson open={open} setOpen={setOpen} course={course}/>
       </div>
     </div>
   );
