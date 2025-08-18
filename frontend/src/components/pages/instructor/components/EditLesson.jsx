@@ -4,8 +4,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import axios from "axios";
 import { PlayCircle, Trash2 } from "lucide-react";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const EditLesson = ({ open, setOpen, course }) => {
   
@@ -31,6 +33,20 @@ const EditLesson = ({ open, setOpen, course }) => {
     setDraggedItemIndex(null);
   };
 
+  const handleDelete = async (lessonId) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_LESSON_API}/delete/${lessonId}`,{
+        withCredentials: true
+      })
+      if(response.data.success){
+        toast.success(response.data.message);
+        setLessons((prev) => prev.filter((l) => l._id !== lessonId))
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[500px] overflow-y-auto">
@@ -54,7 +70,7 @@ const EditLesson = ({ open, setOpen, course }) => {
             <PlayCircle className="w-6 h-6 text-blue-600" />
             <h1 className="text-lg font-medium">{lesson?.title}</h1>
             <div className="ml-auto">
-              <button className="cursor-pointer">
+              <button className="cursor-pointer" onClick={() => handleDelete(lesson._id)}>
                 <Trash2 className="w-5 h-5 text-red-500 hover:text-red-700" />
               </button>
             </div>
