@@ -52,5 +52,30 @@ const addLesson = async (req, res) => {
   }
 };
 
+const deleteLesson = async (req,res) => {
+  try {
+    const lessonId = req.params.id;
+    const lesson = await Lesson.findByIdAndDelete(lessonId)
+    if(!lesson){
+      return res.status(400).json({
+        message:"Lesson not found",
+        success: false
+      })
+    }
+    await Course.findByIdAndUpdate(lesson.courseId, {
+      $pull :{lessons: lesson._id}
+    })
+    return res.status(200).json({
+      message:"Lesson Deleted",
+      success: true
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message:error.message,
+      success: false
+    })
+  }
+}
 
-module.exports = { addLesson };
+
+module.exports = { addLesson, deleteLesson};
