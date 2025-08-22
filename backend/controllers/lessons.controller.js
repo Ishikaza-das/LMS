@@ -62,11 +62,20 @@ const deleteLesson = async (req,res) => {
         success: false
       })
     }
-    await Course.findByIdAndUpdate(lesson.courseId, {
-      $pull :{lessons: lesson._id}
-    })
+    // const course = await Course.findByIdAndUpdate(
+    //   lesson.courseId,
+    //   { $pull: { lessons: lesson._id } },
+    //   { new: true } 
+    // ).populate({path:'lessons'});
+
+    const course = await Course.updateOne(
+      lesson.courseId,
+      { $pull: { lessons: lesson._id } },
+    )
+
     return res.status(200).json({
       message:"Lesson Deleted",
+      course,
       success: true
     });
   } catch (error) {
@@ -77,5 +86,36 @@ const deleteLesson = async (req,res) => {
   }
 }
 
+const updateLessonOrder = async (req,res) => {
+  try {
+    const { lessons, courseId} = req.body;
+    if(!lessons || !Array.isArray(lessons)){
+      return res.status(400).json({
+        message:"Invalid lessons data",
+        success: false
+      })
+    }
 
-module.exports = { addLesson, deleteLesson};
+    const updatePromises = lessons.map((l) => {
+      Lesson.findByIdAndUpdate(l._id, { order: l.order})
+    });
+
+    await Promise.all(updatePromises);
+
+    const course = await Course.findById(courseId).populate("lessons");
+
+    return res.status(200).json({
+      message: "Lesson order updated successfully",
+      course,
+      success: true
+    })
+
+  } catch (error) {
+    return res.status(400).json({
+      message:error.message,
+      success: false
+    })
+  }
+}
+
+module.exports = { addLesson, deleteLesson, updateLessonOrder};
