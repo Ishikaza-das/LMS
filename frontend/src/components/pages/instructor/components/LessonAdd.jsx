@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Edit } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import React from "react";
 
 const lectures = ["Introduction", "Setup"];
@@ -24,11 +24,14 @@ const LessonAdd = () => {
           {lectures.map((lecture, index) => (
             <div key={index}>
               <div className="flex bg-gray-100 h-12 items-center px-4 rounded-md justify-between">
-                <div className="flex">
+                <div className="flex font-medium text-lg space-x-1">
                   <p>{index + 1}.</p>
                   <h1>{lecture}</h1>
                 </div>
-                <button className="cursor-pointer"><Edit /></button>
+                <div className="flex gap-x-3">
+                <button className="cursor-pointer text-blue-400"><Edit /></button>
+                <button className="cursor-pointer text-red-500"><Trash2/></button>
+                </div>
               </div>
             </div>
           ))}
