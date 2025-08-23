@@ -1,121 +1,42 @@
 const Lesson = require("../models/lessons.model");
-const cloudinary = require("../utils/cloudinary");
-const getDataUri = require("../utils/datauri");
 const Course = require("../models/course.model");
 
 const addLesson = async (req, res) => {
   try {
+    const { title } = req.body;
     const courseId = req.params.id;
-    if (!req.files || req.files.length === 0) {
+
+    if (!title) {
       return res.status(400).json({
-        message: "No files uploaded",
+        message: "Something is missing",
         success: false,
       });
     }
 
-    let uploadedLessons = [];
+    let lesson = await Lesson.findOne({ title });
+    lesson = await Lesson.create({
+      title,
+      courseId
+    });
 
-    for (let i = 0; i < req.files.length; i++) {
-      const file = req.files[i];
-      const status = req.body[`status${i}`] || "private";
-      const title = req.body[`title${i}`] || `Lesson ${i + 1}`;
-
-      const fileUri = getDataUri(file);
-      const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-        resource_type: "video",
-      });
-
-      const lesson = await Lesson.create({
-        courseId,
-        title, 
-        videoUrl: cloudResponse.secure_url,
-        status,
-        order: i + 1,
-      });
-
-      uploadedLessons.push(lesson);
-
-      await Course.findByIdAndUpdate(courseId, { $push: { lessons: lesson._id } });
-      await Course.findByIdAndUpdate(courseId, {status: "published"});
-    }
+    await Course.findByIdAndUpdate(courseId,
+      {
+        $push:{ lessons: lesson._id}
+      }
+    );
 
     return res.status(200).json({
-      message: `Added ${uploadedLessons.length} lessons`,
-      lessons: uploadedLessons,
-      success: true,
-    });
+      message:"Lesson created",
+      success: true
+    })
+    
   } catch (error) {
     return res.status(400).json({
-      message: error.message || "Failed to add lessons",
-      success: false,
-    });
+      message:error.message,
+      success: false
+    })
   }
 };
 
-const deleteLesson = async (req,res) => {
-  try {
-    const lessonId = req.params.id;
-    const lesson = await Lesson.findByIdAndDelete(lessonId)
-    if(!lesson){
-      return res.status(400).json({
-        message:"Lesson not found",
-        success: false
-      })
-    }
-    // const course = await Course.findByIdAndUpdate(
-    //   lesson.courseId,
-    //   { $pull: { lessons: lesson._id } },
-    //   { new: true } 
-    // ).populate({path:'lessons'});
 
-    const course = await Course.updateOne(
-      lesson.courseId,
-      { $pull: { lessons: lesson._id } },
-    )
-
-    return res.status(200).json({
-      message:"Lesson Deleted",
-      course,
-      success: true
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message:error.message,
-      success: false
-    })
-  }
-}
-
-const updateLessonOrder = async (req,res) => {
-  try {
-    const { lessons, courseId} = req.body;
-    if(!lessons || !Array.isArray(lessons)){
-      return res.status(400).json({
-        message:"Invalid lessons data",
-        success: false
-      })
-    }
-
-    const updatePromises = lessons.map((l) => {
-      Lesson.findByIdAndUpdate(l._id, { order: l.order})
-    });
-
-    await Promise.all(updatePromises);
-
-    const course = await Course.findById(courseId).populate("lessons");
-
-    return res.status(200).json({
-      message: "Lesson order updated successfully",
-      course,
-      success: true
-    })
-
-  } catch (error) {
-    return res.status(400).json({
-      message:error.message,
-      success: false
-    })
-  }
-}
-
-module.exports = { addLesson, deleteLesson, updateLessonOrder};
+module.exports = {addLesson}

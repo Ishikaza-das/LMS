@@ -1,11 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const { addLesson } = require('../controllers/lessons.controller');
 const isAuthenticated = require('../middleware/authenticated');
-const {multipleUpload} = require('../middleware/multer');
-const {addLesson, deleteLesson, updateLessonOrder} = require("../controllers/lessons.controller");
- 
-router.post("/add/:id",isAuthenticated,multipleUpload,addLesson);
-router.delete("/delete/:id",isAuthenticated,deleteLesson);
-router.put("/update-order",isAuthenticated,updateLessonOrder);
+const router = express.Router();
 
-module.exports = router
+router.post('/post/:id',isAuthenticated, addLesson);
+
+module.exports = router;
