@@ -5,8 +5,6 @@ const lessonSchema = mongoose.Schema({
     title:{type:String, required:true},
     status:{type:String, enum:["public","private"], default:"private"},
     videoUrl:{type:String},
-    publicId:{type: String},
-    order:{type:Number},
 },{timestamps:true});
 
 module.exports = mongoose.model('Lessons',lessonSchema);
