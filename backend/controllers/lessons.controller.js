@@ -106,7 +106,7 @@ const updateLesson = async (req,res) => {
 
 const getLessonCourse = async (req,res) => {
   try {
-    const {courseId} = req.params;
+    const courseId = req.params.id;
     if(!courseId){
       return res.status(400).json({
         message:"Unable to fecth lesson",
