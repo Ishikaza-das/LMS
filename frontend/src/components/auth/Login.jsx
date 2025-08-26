@@ -59,7 +59,7 @@ const Login = () => {
   }
 }, [user, navigate]);
   return (
-    <div>
+    <div className='text-white'>
       <form onSubmit={submitHandler} className='border border-slate-300 rounded-md px-2'>
          <h1 className="font-medium text-xl text-blue-500 py-4">Welcome...</h1>
          <div className='my-2 space-y-4'>

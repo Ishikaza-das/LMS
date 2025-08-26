@@ -7,7 +7,7 @@ import Carouselimg from "./components/CarouselImg";
 
 const Thumbnail = () => {
   return (
-    <div>
+    <div className="bg-black">
       <Hero/>
       <Carouselimg/>
       <Footer/>

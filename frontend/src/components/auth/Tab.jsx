@@ -4,31 +4,37 @@ import Signup from "./Signup";
 import Login from "./Login";
 
 const Tab = () => {
-  const [activeTab, setActiveTab ] = useState("login");
+  const [activeTab, setActiveTab] = useState("login");
   return (
-    <div className="max-w-7xl mx-auto flex items-center justify-center my-20">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-fit lg:w-1/2">
-        <TabsList className="bg-slate-300 h-10 px-2 gap-2 w-full">
-          <TabsTrigger
-            value="login"
-            className="text-lg font-semibold cursor-pointer"
-          >
-            Login
-          </TabsTrigger>
-          <TabsTrigger
-            value="signup"
-            className="text-lg font-semibold cursor-pointer"
-          >
-            Signup
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="login">
-          <Login />
-        </TabsContent>
-        <TabsContent value="signup">
-          <Signup switchToLogin={() => setActiveTab("login")}/>
-        </TabsContent>
-      </Tabs>
+    <div>
+      <div className="max-w-7xl mx-auto flex items-center justify-center py-20">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full md:w-fit lg:w-1/2"
+        >
+          <TabsList className="bg-gray-900 h-10 px-2 gap-2 w-full">
+            <TabsTrigger
+              value="login"
+              className="text-lg font-semibold cursor-pointer"
+            >
+              Login
+            </TabsTrigger>
+            <TabsTrigger
+              value="signup"
+              className="text-lg font-semibold cursor-pointer"
+            >
+              Signup
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="login">
+            <Login />
+          </TabsContent>
+          <TabsContent value="signup">
+            <Signup switchToLogin={() => setActiveTab("login")} />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };

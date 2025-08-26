@@ -68,7 +68,7 @@ const Signup = ({switchToLogin}) => {
 }, [user, navigate]);
 
   return (
-    <div>
+    <div className='text-white'>
       <form className='border border-slate-300 rounded-md px-2' onSubmit={submitHandler}>
          <h1 className="font-medium text-xl text-blue-500 py-4">Create a new account</h1>
          <div className='flex items-center gap-2'>

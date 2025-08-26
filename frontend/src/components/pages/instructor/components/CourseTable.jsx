@@ -52,15 +52,15 @@ const CourseTable = () => {
   
  return (
   <div className="w-full overflow-x-auto">
-    <Table className="min-w-[600px]">
-      <TableCaption>A List of Your recent courses</TableCaption>
+    <Table className="min-w-[600px] text-white">
+      <TableCaption className="text-white">A List of Your recent courses</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Course Name</TableHead>
-          <TableHead>Created At</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Action</TableHead>
+          <TableHead className="text-white">Course Name</TableHead>
+          <TableHead className="text-white">Created At</TableHead>
+          <TableHead className="text-white">Price</TableHead>
+          <TableHead className="text-white">Status</TableHead>
+          <TableHead className="text-right text-white">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -79,12 +79,12 @@ const CourseTable = () => {
                 <PopoverTrigger>
                   <MoreHorizontal />
                 </PopoverTrigger>
-                <PopoverContent className="w-32">
+                <PopoverContent className="w-32 bg-black text-white">
                   <div
                     className="flex items-center gap-4 w-fit cursor-pointer"
                     onClick={() => navigate(`/course/${course._id}`)}
                   >
-                    <View />
+                    <View className="text-blue-600"/>
                     <span>View</span>
                   </div>
                   <br />
@@ -94,12 +94,12 @@ const CourseTable = () => {
                       navigate(`/admin/addlessonto/${course._id}`)
                     }
                   >
-                    <Plus />
+                    <Plus className="text-cyan-400"/>
                     <span>Add Lessons</span>
                   </div>
                   <br />
                   <div className="flex items-center gap-4 w-fit cursor-pointer" onClick={() => deleteCourse(course._id)}>
-                    <Delete />
+                    <Delete className="text-red-500"/>
                     <span>Delete</span>
                   </div>
                 </PopoverContent>

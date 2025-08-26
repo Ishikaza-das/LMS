@@ -52,7 +52,6 @@ const CreateCourse = () => {
           "Content-Type":"multipart/form-data"
         }, withCredentials: true
       })
-      // console.log(response.data);
       if(response.data.success){
         toast.success(`${response.data.message}", Now you can add lectures"`);
         const courseId = response.data.course._id;
@@ -71,13 +70,13 @@ const CreateCourse = () => {
       <Navbar />
       <div className="max-w-7xl mx-auto my-10">
         <div className="flex justify-between">
-          <Button variant="outline" onClick={() => navigate("/admin/courses")}>
+          <Button variant="destructive" onClick={() => navigate("/admin/courses")}>
             <MoveLeft />
             <span>Back</span>
           </Button>
         </div>
         <div className="my-6 border border-gray-200 p-4 rounded-2xl">
-          <form onSubmit={createCourseHandler}>
+          <form onSubmit={createCourseHandler} className="text-white">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
               <Label className="text-xl font-medium">Thumbnail</Label>
@@ -105,7 +104,7 @@ const CreateCourse = () => {
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="level"/>
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-black text-white">
                   <SelectItem value="beginner" >Beginner</SelectItem>
                   <SelectItem value="intermediate">Intermediate</SelectItem>
                   <SelectItem value="advance">Advance</SelectItem>

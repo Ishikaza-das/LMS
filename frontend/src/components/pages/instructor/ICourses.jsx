@@ -21,12 +21,12 @@ const ICourses = () => {
     dispatch(setSearchCourseByText(input))
   },[input])
   return (
-    <div>
+    <div className="bg-black h-screen">
       <Navbar />
       <div className="max-w-7xl mx-auto my-10">
         <div className="flex justify-between">
           <Input
-            className="w-fit border border-gray-400"
+            className="w-fit border border-white text-white"
             placeholder="Filter by course name"
             onChange={(e) => setInput(e.target.value)}
           />

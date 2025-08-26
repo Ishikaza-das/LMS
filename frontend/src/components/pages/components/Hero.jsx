@@ -21,10 +21,10 @@ const Hero = () => {
           <span className="text-blue-600 text-lg font-semibold">
             Learn Anytime, Anywhere.
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-800 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-blue-400 leading-tight">
             Build skills for the future with our interactive online courses.
           </h1>
-          <p className="text-slate-600 text-lg">
+          <p className="text-white text-lg">
             Join thousands of learners and take control of your education with self-paced lessons, engaging videos, and expert instructors.
           </p>
           <div>
