@@ -26,7 +26,7 @@ const ICourses = () => {
       <div className="max-w-7xl mx-auto my-10">
         <div className="flex justify-between">
           <Input
-            className="w-fit border border-white text-white"
+            className="w-fit border border-white text-white placeholder:text-white"
             placeholder="Filter by course name"
             onChange={(e) => setInput(e.target.value)}
           />
