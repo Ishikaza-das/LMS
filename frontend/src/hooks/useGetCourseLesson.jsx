@@ -32,7 +32,6 @@ const useGetCourseLesson = (courseId, refresh) => {
         }
         fetchLesson();
     },[courseId, dispatch, refresh])
-    console.log(count);
     return {loadLesson, count};
 }
 

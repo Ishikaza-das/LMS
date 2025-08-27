@@ -54,7 +54,6 @@ const LessonAdd = () => {
           <div className="space-y-4 pb-4 text-white">
             <Label className="font-medium text-xl">Title</Label>
             <Input
-            className="placeholder:text-white"
               placeholder="eg: Introduction to abc"
               type="text"
               value={title}
