@@ -43,7 +43,7 @@ const LessonTitle = ({ courseId, refresh }) => {
                   <h1>{lecture?.title}</h1>
                 </div>
                 <div className="flex gap-x-3">
-                  <button className="cursor-pointer text-blue-400" onClick={() => navigate(`/addlectures/${lecture._id}`)}>
+                  <button className="cursor-pointer text-blue-400" onClick={() => navigate(`/course/${courseId}/addlectures/${lecture._id}`)}>
                     <Edit />
                   </button>
                   <button className="cursor-pointer text-red-500" onClick={() => deleteLesson(lecture._id)}>

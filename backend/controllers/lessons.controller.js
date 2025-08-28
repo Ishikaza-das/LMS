@@ -127,4 +127,27 @@ const getLessonCourse = async (req,res) => {
   }
 }
 
-module.exports = {addLesson, deleteLesson, updateLesson, getLessonCourse}
+const getLessonById = async (req,res) => {
+  try {
+    const lessonId = req.params.id;
+    if(!lessonId){
+      return res.status(400).json({
+        message:"No Lesson found",
+        success: false
+      })
+    }
+    const singleLesson = await Lesson.findById(lessonId);
+    return res.status(200).json({
+      message:"Lesson found",
+      singleLesson,
+      success: true
+    })
+  } catch (error) {
+    return res.status(400).json({
+      message:"Unable to fetch lesson",
+      success: false
+    })
+  }
+}
+
+module.exports = {addLesson, deleteLesson, updateLesson, getLessonCourse, getLessonById}
