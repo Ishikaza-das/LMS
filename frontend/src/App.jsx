@@ -49,7 +49,7 @@ const appRouter = createBrowserRouter([
     element:<Lessons/>
   },
   {
-    path:"/course/:id/addlectures/:id",
+    path:"/course/:courseId/addlectures/:lessonId",
     element:<AddVideo/>
   },
   {

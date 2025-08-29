@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import useGetSingleLesson from '@/hooks/useGetSingleLesson'
 import axios from 'axios'
 import { Loader2 } from 'lucide-react'
 import React, { useRef, useState } from 'react'
@@ -18,7 +19,10 @@ const AddVideo = () => {
     file:""
   })
   const params = useParams();
+  const {courseId, lessonId} = params;
   const [loading, setLoading] = useState(false);
+
+  useGetSingleLesson(lessonId);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -44,7 +48,7 @@ const AddVideo = () => {
     formData.append("file",input.file);
     try {
       setLoading(true);
-      const response = await axios.put(`${import.meta.env.VITE_LESSON_API}/course/${params.id}/lesson/${params.id}`,formData,{withCredentials:true});
+      const response = await axios.put(`${import.meta.env.VITE_LESSON_API}/course/${courseId}/lesson/${lessonId}`,formData,{withCredentials:true});
       if(response.data.success){
         toast.success(response.data.message);
       }
