@@ -78,7 +78,9 @@ const updateLesson = async (req,res) => {
     const file = req.file;
     const {title, status} = req.body;
     const fileUri = getDataUri(file);
-    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const cloudResponse = await cloudinary.uploader.upload_large(fileUri.content,{
+      chunk_size: 6000000
+    });
     const lesson = await Lesson.findByIdAndUpdate(lessonId,
       {
         title,
