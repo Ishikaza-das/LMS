@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useGetCourseLesson from "@/hooks/useGetCourseLesson";
-import { setSingleCourseLesson } from "@/store/lessonSlice";
+// import { setSingleCourseLesson } from "@/store/lessonSlice";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+// import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import LessonTitle from "./LessonTitle";
@@ -13,12 +13,12 @@ import LessonTitle from "./LessonTitle";
 const LessonAdd = () => {
   const params = useParams();
   const courseId = params.id;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    return () => {
-      dispatch(setSingleCourseLesson([]));
-    };
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(setSingleCourseLesson([]));
+  //   };
+  // }, [dispatch]);
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);

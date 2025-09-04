@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import useGetSingleLesson from "@/hooks/useGetSingleLesson";
@@ -22,14 +22,14 @@ const AddVideo = () => {
   });
 
   useEffect(() => {
-    if(singleLesson){
+    if (singleLesson) {
       setInput({
         title: singleLesson?.title || "",
         status: singleLesson?.status || "private",
-        file:""
-      })
+        file: "",
+      });
     }
-  },[singleLesson]);
+  }, [singleLesson]);
   const params = useParams();
   const { courseId, lessonId } = params;
   const [loading, setLoading] = useState(false);
@@ -54,9 +54,9 @@ const AddVideo = () => {
   const saveVideo = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("title", input.title);
-    formData.append("status", input.status);
-    formData.append("file", input.file);
+    if (input.title) formData.append("title", input.title);
+    if (input.status) formData.append("status", input.status);
+    if (input.file) formData.append("file", input.file);
     try {
       setLoading(true);
       const response = await axios.put(

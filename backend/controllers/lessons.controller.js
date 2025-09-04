@@ -18,138 +18,141 @@ const addLesson = async (req, res) => {
     let lesson = await Lesson.findOne({ title });
     lesson = await Lesson.create({
       title,
-      courseId
+      courseId,
     });
 
-    await Course.findByIdAndUpdate(courseId,
-      {
-        $push:{ lessons: lesson._id}
-      }
-    );
+    await Course.findByIdAndUpdate(courseId, {
+      $push: { lessons: lesson._id },
+    });
 
     return res.status(200).json({
-      message:"Lesson created",
-      success: true
-    })
-    
+      message: "Lesson created",
+      success: true,
+    });
   } catch (error) {
     return res.status(400).json({
-      message:error.message,
-      success: false
-    })
+      message: error.message,
+      success: false,
+    });
   }
 };
 
-const deleteLesson = async (req,res) => {
+const deleteLesson = async (req, res) => {
   try {
-    const {lessonId} = req.body;
+    const { lessonId } = req.body;
     const courseId = req.params.id;
 
     let lesson = await Lesson.findByIdAndDelete(lessonId);
-    if(!lesson){
+    if (!lesson) {
       return res.status(400).json({
-        message:"Lesson not found",
-        success: false
-      })
+        message: "Lesson not found",
+        success: false,
+      });
     }
-    
-    await Course.findByIdAndUpdate(courseId,
-      {
-        $pull:{lessons: lesson._id}
-      }
-    )
+
+    await Course.findByIdAndUpdate(courseId, {
+      $pull: { lessons: lesson._id },
+    });
 
     return res.status(200).json({
-      message:"Lesson delete",
-      success: true
-    })
-
-  } catch (error) {
-    return res.status(400).json({
-      message:error.message,
-      success: false
-    })
-  }
-}
-
-const updateLesson = async (req,res) => {
-  try {
-    const {courseId, lessonId} = req.params;
-    const file = req.file;
-    const {title, status} = req.body;
-    const fileUri = getDataUri(file);
-    const cloudResponse = await cloudinary.uploader.upload_large(fileUri.content,{
-      chunk_size: 6000000
+      message: "Lesson delete",
+      success: true,
     });
-    const lesson = await Lesson.findByIdAndUpdate(lessonId,
-      {
-        title,
-        status,
-        videoUrl : cloudResponse.secure_url
-      },{ new: true });
-
-      await Course.findByIdAndUpdate(courseId,
-        {
-          status:"published"
-        }
-      )
-      return res.status(200).json({
-        message:"Lecture uploaded",
-        lesson,
-        success: true
-      })
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      success: false
-    })
+      success: false,
+    });
   }
-}
+};
 
-const getLessonCourse = async (req,res) => {
+const updateLesson = async (req, res) => {
+  try {
+    const { courseId, lessonId } = req.params;
+    const file = req.file;
+    const { title, status } = req.body;
+
+    let updateData = {};
+    if (title) updateData.title = title;
+    if (status) updateData.status = status;
+    if (file) {
+      const fileUri = getDataUri(file);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      updateData.videoUrl = cloudResponse.secure_url;
+    }
+
+    const lesson = await Lesson.findByIdAndUpdate(lessonId, updateData, {
+      new: true,
+    });
+
+    if(file){
+      await Course.findByIdAndUpdate(courseId, {
+      status: "published",
+    });
+    }
+    return res.status(200).json({
+      message: "Lecture uploaded",
+      lesson,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
+const getLessonCourse = async (req, res) => {
   try {
     const courseId = req.params.id;
-    if(!courseId){
+    if (!courseId) {
       return res.status(400).json({
-        message:"Unable to fecth lesson",
-        success: false
-      })
+        message: "Unable to fecth lesson",
+        success: false,
+      });
     }
-    const lesson = await Lesson.find({courseId: courseId});
+    const lesson = await Lesson.find({ courseId: courseId });
 
     return res.status(200).json({
       lesson,
-      success: true
-    })
+      success: true,
+    });
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      success: false
-    })
+      success: false,
+    });
   }
-}
+};
 
-const getLessonById = async (req,res) => {
+const getLessonById = async (req, res) => {
   try {
     const lessonId = req.params.id;
-    if(!lessonId){
+    if (!lessonId) {
       return res.status(400).json({
-        message:"No Lesson found",
-        success: false
-      })
+        message: "No Lesson found",
+        success: false,
+      });
     }
     const singleLesson = await Lesson.findById(lessonId);
     return res.status(200).json({
-      message:"Lesson found",
+      message: "Lesson found",
       singleLesson,
-      success: true
-    })
+      success: true,
+    });
   } catch (error) {
     return res.status(400).json({
-      message:"Unable to fetch lesson",
-      success: false
-    })
+      message: "Unable to fetch lesson",
+      success: false,
+    });
   }
-}
+};
 
-module.exports = {addLesson, deleteLesson, updateLesson, getLessonCourse, getLessonById}
+module.exports = {
+  addLesson,
+  deleteLesson,
+  updateLesson,
+  getLessonCourse,
+  getLessonById,
+};

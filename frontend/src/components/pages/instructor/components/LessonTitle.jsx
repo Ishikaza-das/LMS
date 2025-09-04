@@ -33,7 +33,7 @@ const LessonTitle = ({ courseId, refresh }) => {
     <div className="mt-6 grid grid-cols-1 gap-y-3 w-96 xl:w-xl">
       {loadLesson
         ? [...Array(count)].map((_, index) => (
-            <Skeleton key={index} className="h-12 rounded-md" />
+            <Skeleton key={index} className="h-12 rounded-md bg-gray-600" />
           ))
         : singleCourseLesson.map((lecture, index) => (
             <div key={index}>

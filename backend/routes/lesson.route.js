@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/post/:id',isAuthenticated, addLesson);
 router.delete('/delete/:id',isAuthenticated, deleteLesson);
-router.put('/course/:id/lesson/:id',isAuthenticated, singleUpload, updateLesson);
+router.put('/course/:courseId/lesson/:lessonId',isAuthenticated, singleUpload, updateLesson);
 router.get('/course/lesson/:id',isAuthenticated, getLessonCourse);
 router.get('/course/get/lesson/:id',isAuthenticated, getLessonById);
 
