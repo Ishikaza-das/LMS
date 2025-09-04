@@ -3,27 +3,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import useGetSingleLesson from "@/hooks/useGetSingleLesson";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import {  useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+import useGetSingleLesson from "@/hooks/useGetSingleLesson";
 
 const AddVideo = () => {
   const fileInputRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const { singleLesson } = useSelector((store) => store.lesson);
   const [input, setInput] = useState({
-    title: singleLesson.title,
-    status: singleLesson.status,
+    title: "",
+    status: "",
     file: "",
   });
+
+  useEffect(() => {
+    if(singleLesson){
+      setInput({
+        title: singleLesson?.title || "",
+        status: singleLesson?.status || "private",
+        file:""
+      })
+    }
+  },[singleLesson]);
   const params = useParams();
   const { courseId, lessonId } = params;
   const [loading, setLoading] = useState(false);
-
   useGetSingleLesson(lessonId);
 
   const handleButtonClick = () => {
