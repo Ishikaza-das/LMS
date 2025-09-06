@@ -3,7 +3,7 @@ import React from "react";
 const LessonBox = () => {
 
   return (
-    <div>
+    <div className="text-white">
       This is Lesson
     </div>
   );

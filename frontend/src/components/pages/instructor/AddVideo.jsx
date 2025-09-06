@@ -44,6 +44,7 @@ const AddVideo = () => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedVideo(file);
+      console.log("Selected file:", file);
     }
   };
 
@@ -65,8 +66,7 @@ const AddVideo = () => {
         }/course/${courseId}/lesson/${lessonId}`,
         formData,
         {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true
         }
       );
       if (response.data.success) {
@@ -74,7 +74,7 @@ const AddVideo = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "unable to upload video");
     } finally {
       setLoading(false);
     }
@@ -142,12 +142,12 @@ const AddVideo = () => {
                 )}
               </div>
               {loading ? (
-                <Button className="bg-blue-500 text-xl" type="submit">
+                <Button className="bg-blue-500 text-xl hover:bg-blue-700" type="submit">
                   <Loader2 className="animate-spin" />
                   Saving...
                 </Button>
               ) : (
-                <Button className="bg-blue-500 text-xl" type="submit">
+                <Button className="bg-blue-500 text-xl  hover:bg-blue-700" type="submit">
                   Save
                 </Button>
               )}

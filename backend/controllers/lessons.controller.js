@@ -2,6 +2,7 @@ const Lesson = require("../models/lessons.model");
 const Course = require("../models/course.model");
 const getDataUri = require("../utils/datauri");
 const cloudinary = require("../utils/cloudinary");
+const streamifier = require("streamifier");
 
 const addLesson = async (req, res) => {
   try {
@@ -66,6 +67,51 @@ const deleteLesson = async (req, res) => {
   }
 };
 
+// const updateLesson = async (req, res) => {
+//   try {
+//     const { courseId, lessonId } = req.params;
+//     const file = req.file;
+//     const { title, status } = req.body;
+
+//     let updateData = {};
+//     if (title) updateData.title = title;
+//     if (status) updateData.status = status;
+//     if (file) {
+//       const fileUri = getDataUri(file);
+//       const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+//         resource_type: "video",
+//       });
+//       updateData.videoUrl = cloudResponse.secure_url;
+//     }
+
+//     const lesson = await Lesson.findByIdAndUpdate(lessonId, updateData, {
+//       new: true,
+//     });
+
+//     if (file) {
+//       await Course.findByIdAndUpdate(courseId, {
+//         status: "published",
+//       });
+//     }
+
+//     console.log("REQ BODY:", req.body);
+//     console.log("REQ FILE:", req.file);
+//     console.log("PARAMS:", req.params);
+//     console.log("UPDATE DATA", updateData)
+
+//     return res.status(200).json({
+//       message: "Lecture uploaded",
+//       lesson,
+//       success: true,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       message: error.message,
+//       success: false,
+//     });
+//   }
+// };
+
 const updateLesson = async (req, res) => {
   try {
     const { courseId, lessonId } = req.params;
@@ -75,9 +121,23 @@ const updateLesson = async (req, res) => {
     let updateData = {};
     if (title) updateData.title = title;
     if (status) updateData.status = status;
+
     if (file) {
-      const fileUri = getDataUri(file);
-      const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      const uploadToCloudinary = () => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { resource_type: "video" }, 
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
+
+          streamifier.createReadStream(file.buffer).pipe(stream);
+        });
+      };
+
+      const cloudResponse = await uploadToCloudinary();
       updateData.videoUrl = cloudResponse.secure_url;
     }
 
@@ -85,17 +145,22 @@ const updateLesson = async (req, res) => {
       new: true,
     });
 
-    if(file){
-      await Course.findByIdAndUpdate(courseId, {
-      status: "published",
-    });
+    if (file) {
+      await Course.findByIdAndUpdate(courseId, { status: "published" });
     }
+
+    console.log("REQ BODY:", req.body);
+    console.log("REQ FILE:", req.file?.originalname);
+    console.log("PARAMS:", req.params);
+    console.log("UPDATE DATA", updateData);
+
     return res.status(200).json({
       message: "Lecture uploaded",
       lesson,
       success: true,
     });
   } catch (error) {
+    console.error(error);
     return res.status(400).json({
       message: error.message,
       success: false,
