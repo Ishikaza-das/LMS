@@ -14,7 +14,6 @@ const CourseBox = ({ course }) => {
 
   return (
     <div className="flex flex-col xl:flex-row gap-10">
-      {/* Left: Image */}
       <div className="w-full xl:w-1/2">
         <img
           src={course?.thumbnail}
@@ -23,19 +22,18 @@ const CourseBox = ({ course }) => {
         />
       </div>
 
-      {/* Right: Details */}
       <div className="w-full xl:w-1/2 bg-accent-foreground rounded-md space-y-4 p-4">
         <h1 className="font-bold text-3xl lg:text-5xl text-white">
           {course?.title}
         </h1>
 
         <div className="flex flex-wrap items-center gap-4">
-          <Badge className="bg-purple-500">
-            {course?.level?.toUpperCase()}
-          </Badge>
           <h1 className="font-medium text-lg text-gray-400">
             By {course?.instructor?.fullname}
           </h1>
+          <Badge className="bg-purple-500">
+            {course?.level?.toUpperCase()}
+          </Badge>
         </div>
 
         <p className="text-justify my-4 md:text-lg text-gray-300">

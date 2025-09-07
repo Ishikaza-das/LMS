@@ -82,7 +82,7 @@ const EditCourse = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[500px] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] overflow-y-auto bg-accent-foreground text-white">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">
             Update Course
@@ -149,7 +149,7 @@ const EditCourse = ({ open, setOpen }) => {
               <SelectTrigger className="w-full col-span-3">
                 <SelectValue placeholder={singleCourse?.level} />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-gray-900 text-white">
                 <SelectItem value="beginner">Beginner</SelectItem>
                 <SelectItem value="intermediate">Intermediate</SelectItem>
                 <SelectItem value="advance">Advance</SelectItem>
