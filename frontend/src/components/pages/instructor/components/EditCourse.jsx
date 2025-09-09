@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { setSingleCourse } from "@/store/courseSlice";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -27,13 +27,25 @@ import { toast } from "sonner";
 const EditCourse = ({ open, setOpen }) => {
   const {singleCourse} = useSelector(store => store.course);
   const [input, setInput] = useState({
-    file: singleCourse?.thumbnail,
-    title: singleCourse?.title,
-    description: singleCourse?.description,
-    category: singleCourse?.category,
-    level: singleCourse?.level,
-    price: singleCourse?.price,
+    file: "",
+    title: "",
+    description: "",
+    category: "",
+    level: "",
+    price: "",
   });
+  useEffect(() => {
+  if (singleCourse) {
+    setInput({
+      file: singleCourse?.thumbnail || "",
+      title: singleCourse?.title || "",
+      description: singleCourse?.description || "",
+      category: singleCourse?.category || "",
+      level: singleCourse?.level || "",
+      price: singleCourse?.price || "",
+    });
+  }
+}, [singleCourse]);
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -145,7 +157,7 @@ const EditCourse = ({ open, setOpen }) => {
             <Label htmlFor="level" className="text-right">
               Level
             </Label>
-            <Select value={input.value} onChange={selectHandler}>
+            <Select value={input.level} onValueChange={selectHandler}>
               <SelectTrigger className="w-full col-span-3">
                 <SelectValue placeholder={singleCourse?.level} />
               </SelectTrigger>

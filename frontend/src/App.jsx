@@ -60,7 +60,7 @@ const appRouter = createBrowserRouter([
 
 function App() {
   return (
-    <div className="bg-black min-h-screen">
+    <div>
       <RouterProvider router={appRouter}/>
     </div>
   )
