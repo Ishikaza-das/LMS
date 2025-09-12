@@ -2,11 +2,13 @@ import Navbar from "@/components/shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Pen } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import EditProfile from "./components/EditProfile";
 
 const Profile = () => {
   const { user } = useSelector((store) => store.auth);
+  const [open , setOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,12 +28,13 @@ const Profile = () => {
                 <p className="text-gray-300">{user?.email}</p>
               </div>
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md">
+            <Button className="bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md" onClick={() => setOpen(true)}>
               <Pen />
             </Button>
           </div>
         </div>
       </div>
+      <EditProfile open={open} setOpen={setOpen}/>
     </div>
   );
 };
