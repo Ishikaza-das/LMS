@@ -142,9 +142,9 @@ const logout = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { fullname, email } = req.body;
+    const { fullname } = req.body;
     const userId = req.id;
-    let user = await User.findByIdAndUpdate(userId);
+    let user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).json({
@@ -154,7 +154,16 @@ const updateProfile = async (req, res) => {
     }
 
     if (fullname) user.fullname = fullname;
-    if (email) user.email = email;
+    // if (email) user.email = email;
+    if (req.file) {
+      try {
+        const fileUri = getDataUri(req.file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        user.profilephoto = cloudResponse.secure_url;
+      } catch (uploadError) {
+        console.error("File upload error:", uploadError);
+      }
+    }
 
     await user.save();
 
