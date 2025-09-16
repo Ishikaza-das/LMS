@@ -21,7 +21,7 @@ const ICourses = () => {
     dispatch(setSearchCourseByText(input))
   },[input])
   return (
-    <div className="bg-black h-screen">
+    <div>
       <Navbar />
       <div className="max-w-7xl mx-auto my-10">
         <div className="flex justify-between">
