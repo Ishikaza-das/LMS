@@ -12,12 +12,22 @@ const Course = () => {
       <div className="max-w-7xl mx-auto my-6">
         <Input className="w-fit lg:w-96" placeholder="Search By name" />
         {noCourses.length <= 0 ? (
-          <div className="mt-6">
-            <span>No Courses Available</span>
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-3 mt-6 space-y-2">
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+              <Courses/>
+            </div>
           </div>
         ) : (
           <div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-3 mt-6 space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-3 mt-6 space-y-2">
               {noCourses.map((index) => (
                 <div key={index}>
                   <Courses />
