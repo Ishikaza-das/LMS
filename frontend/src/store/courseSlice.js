@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { steps } from "framer-motion";
 
 const courseSlice = createSlice({
     name:"course",
     initialState:{
         adminCourses:[],
         searchCourseByText:"",
-        singleCourse:null
+        singleCourse:null,
+        allCourses:[]
     },
     reducers:{
         setAdminCourses:(state, action) => {
@@ -17,13 +19,17 @@ const courseSlice = createSlice({
         setSingleCourse:(state, action) => {
             state.singleCourse = action.payload;
         },
+        setAllCourses:(state,action) => {
+            state.allCourses = action.payload;
+        },
         resetCourseState:(state) => {
             state.adminCourses = [];
             state.searchCourseByText = "";
             state.singleCourse = null;
+            steps.allCourses = []
         }
     }
 });
 
-export const {setAdminCourses, setSearchCourseByText, setSingleCourse, resetCourseState} = courseSlice.actions;
+export const {setAdminCourses, setSearchCourseByText, setSingleCourse,setAllCourses, resetCourseState} = courseSlice.actions;
 export default courseSlice.reducer;
