@@ -36,8 +36,8 @@ const Course = () => {
           <div>
             <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-3 mt-6 space-y-2">
               {filterCourse.map((course) => (
-                <div>
-                  <Courses course={course}/>
+                <div key={course?._id}>
+                  <Courses course={course} />
                 </div>
               ))}
             </div>
