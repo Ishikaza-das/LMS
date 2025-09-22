@@ -50,7 +50,7 @@ const CourseBox = ({ course }) => {
             </Button>
           ) : (
             <Button className="w-28 bg-blue-600 hover:bg-blue-700">
-              Buy
+              Buy ₹ {course?.price}
             </Button>
           )}
         </div>
