@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     profilephoto:{type:String, default:''},
     role:{type:String, enum:['student','instructor'], required: true},
     enrolledCourses:[{type:mongoose.Schema.Types.ObjectId, ref:'Course'}],
+    stripeAccountId: { type: String, default: null },
 },{timestamps:true});
 
 module.exports = mongoose.model('User', userSchema);
