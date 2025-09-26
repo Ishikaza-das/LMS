@@ -10,6 +10,8 @@ import CreateCourse from "./components/pages/instructor/CreateCourse"
 import Lessons from "./components/pages/instructor/Lessons"
 import CourseView from "./components/pages/components/CourseView"
 import AddVideo from "./components/pages/instructor/AddVideo"
+import PaymentSuccess from "./components/shared/PaymentSuccess"
+import PaymentCancel from "./components/shared/PaymentCancel"
 
 const appRouter = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ const appRouter = createBrowserRouter([
   {
     path:"/course/:id",
     element:<CourseView/>
+  },
+  {
+    path:"/payment-success",
+    element:<PaymentSuccess/>
+  },
+  {
+    path:"/payment-cancel",
+    element:<PaymentCancel/>
   }
 ])
 

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import EditCourse from "../instructor/components/EditCourse";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const CourseBox = ({ course }) => {
   const { user } = useSelector((store) => store.auth);
@@ -11,6 +12,22 @@ const CourseBox = ({ course }) => {
   const edit = () => {
     setOpen(true);
   };
+
+  const handelBuyCourse = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_PAYMENT_API}/create-checkout-session`,{
+        courseId: course._id,
+        instructorId: course.instructor._id,
+        amount: course.price,
+      },{withCredentials:true})
+
+      if(response.data.url){
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex flex-col xl:flex-row gap-10">
@@ -49,7 +66,7 @@ const CourseBox = ({ course }) => {
               Edit
             </Button>
           ) : (
-            <Button className="w-28 bg-blue-600 hover:bg-blue-700">
+            <Button className="w-28 bg-blue-600 hover:bg-blue-700" onClick={handelBuyCourse}>
               Buy ₹ {course?.price}
             </Button>
           )}
