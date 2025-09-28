@@ -1,7 +1,7 @@
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import { LogOut, User2 } from "lucide-react";
+import { Link2, LogOut, User2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,6 +35,19 @@ const Navbar = () => {
       console.log(error);
     }
   };
+
+  const connectStripe = async() => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_STRIPE_API}/connect`,{},{withCredentials:true})
+
+      if(response.data.success){
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -88,11 +101,18 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="flex flex-col my-2">
-                  {user && user.role === "student" && (
+                  {user && user.role === "student" ? (
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       <User2 />
                       <Button variant="link">
                         <Link to="/profile" className="text-white">View Profile</Link>
+                      </Button>
+                    </div>
+                  ) : (
+                     <div className="flex w-fit items-center gap-2 cursor-pointer">
+                      <Link2 />
+                      <Button variant="link" onClick={connectStripe}>
+                        <Link className="text-white">Connect Stripe Account</Link>
                       </Button>
                     </div>
                   )}

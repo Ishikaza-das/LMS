@@ -50,7 +50,7 @@ const Signup = ({switchToLogin}) => {
       if(response.data.success){
         toast.success(response.data.message);
         switchToLogin();
-        console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error) {
       toast.error(error.response.data.message);

@@ -12,6 +12,8 @@ import CourseView from "./components/pages/components/CourseView"
 import AddVideo from "./components/pages/instructor/AddVideo"
 import PaymentSuccess from "./components/shared/PaymentSuccess"
 import PaymentCancel from "./components/shared/PaymentCancel"
+import OnboardingSuccess from "./components/shared/OnboardingSuccess"
+import OnboardingFailed from "./components/shared/OnboardingFailed"
 
 const appRouter = createBrowserRouter([
   {
@@ -65,6 +67,14 @@ const appRouter = createBrowserRouter([
   {
     path:"/payment-cancel",
     element:<PaymentCancel/>
+  },
+  {
+    path:"/onboarding-success",
+    element:<OnboardingSuccess/>
+  },
+  {
+    path:"/onboarding-failed",
+    element:<OnboardingFailed/>
   }
 ])
 
