@@ -109,7 +109,7 @@ const Navbar = () => {
                       </Button>
                     </div>
                   ) : (
-                     <div className="flex w-fit items-center gap-2 cursor-pointer">
+                     <div className="flex w-fit items-center gap-2 cursor-pointer ">
                       <Link2 />
                       <Button variant="link" onClick={connectStripe}>
                         <Link className="text-white">Connect Stripe Account</Link>
