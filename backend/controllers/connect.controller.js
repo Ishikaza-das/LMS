@@ -41,6 +41,7 @@ const createConnectAccount = async (req, res) => {
     res.status(200).json({
       url: accountLink.url,
       success: true,
+      user
     });
   } catch (error) {
     console.error("Stripe Connect Error:", error);
