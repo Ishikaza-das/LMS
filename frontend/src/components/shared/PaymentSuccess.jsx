@@ -1,34 +1,41 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "sonner";
 
 const PaymentSuccess = () => {
-    const location = useLocation();
-    const sessionId = new URLSearchParams(location.search).get("session_id");
-    const [status, setStatus] = useState("Verifying payment...");
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session_id");
 
-    useEffect(() => {
-        const verify = async () => {
-            try {
-                const response = await axios.post(`${import.meta.env.VITE_PAYMENT_API}/verify-payment`,{ sessionId },{withCredentials:true})
-                if(response.data.success){
-                    setStatus("Payment Successful! You are now enrolled in this course.")
-                }else{
-                    setStatus("Payment could not be verified.");
-                }
-            } catch (error) {
-                console.error(error);
-                setStatus("Error verifying payment.");
-            }
+  useEffect(() => {
+    const verify = async () => {
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_PAYMENT_API}/verify-payment`,
+          { sessionId }, 
+          { withCredentials: true }
+        );
+        if (res.data.success) {
+          toast.success(res.data.message);
+        } else {
+          toast.error("Payment verification failed");
         }
-        if(sessionId) verify();
-    },[sessionId]);
+      } catch (error) {
+        console.error(error);
+        toast.error("Error verifying payment.");
+      }
+    };
+
+    if (sessionId) {
+      verify();
+    }
+  }, [sessionId]);
 
   return (
-    <div className='text-center'>
-      <h1 className='text-3xl font-bold'>{status}</h1>
+    <div className="flex items-center justify-center h-screen">
+      <h1 className="text-2xl font-bold text-green-600">Payment Successful </h1>
     </div>
-  )
-}
+  );
+};
 
-export default PaymentSuccess 
+export default PaymentSuccess;
