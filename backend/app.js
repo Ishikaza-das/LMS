@@ -8,6 +8,7 @@ const courseRoute = require('./routes/course.route');
 const lessonRoute = require('./routes/lesson.route');
 const paymentRoute = require('./routes/payment.route');
 const connectRoute = require('./routes/connect.route');
+const webhookRoute = require('./routes/webhook.routes');
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use('/lms/v1/course',courseRoute);
 app.use('/lms/v1/lesson',lessonRoute);
 app.use('/lms/v1/payment',paymentRoute);
 app.use('/lms/v1/connect-strip',connectRoute);
+app.use('/lms/v1/check-strip',webhookRoute);
 
 module.exports = app;
