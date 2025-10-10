@@ -24,6 +24,10 @@ const createConnectAccount = async (req, res) => {
       const account = await stripe.accounts.create({
         type: "express",
         email: user.email,
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true }
+        }
       });
 
       user.stripeAccountId = account.id;
@@ -31,11 +35,10 @@ const createConnectAccount = async (req, res) => {
     }
 
     const accountLink = await stripe.accountLinks.create({
-      type: "express",
+      type: "account_onboarding",
       account: user.stripeAccountId,
       refresh_url: `${process.env.FRONTEND}/onboarding-failed`,
       return_url: `${process.env.FRONTEND}/onboarding-success`,
-      type: "account_onboarding",
     });
 
     res.status(200).json({
