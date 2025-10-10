@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import { Link2, LogOut, User2 } from "lucide-react";
+import { Link2, Loader2, LogOut, User2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const logOutHandler = async () => {
     try {
@@ -38,13 +39,15 @@ const Navbar = () => {
 
   const connectStripe = async() => {
     try {
+      setLoading(true);
       const response = await axios.post(`${import.meta.env.VITE_STRIPE_API}/connect`,{},{withCredentials:true})
-
       if(response.data.success){
         window.location.href = response.data.url;
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -110,7 +113,7 @@ const Navbar = () => {
                     </div>
                   ) : (
                      <div className="flex w-fit items-center gap-2 cursor-pointer ">
-                      <Link2 />
+                      {loading ? <Loader2 className='mr-2 h-4 w-4 animate-spin'/> : <Link2 />}
                       <Button variant="link" onClick={connectStripe}>
                         <Link className="text-white">Connect Stripe Account</Link>
                       </Button>

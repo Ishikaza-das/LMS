@@ -4,17 +4,19 @@ import React, { useState } from "react";
 import EditCourse from "../instructor/components/EditCourse";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 const CourseBox = ({ course }) => {
   const { user } = useSelector((store) => store.auth);
   const [open, setOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const edit = () => {
     setOpen(true);
   };
 
   const handelBuyCourse = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(`${import.meta.env.VITE_PAYMENT_API}/create-checkout-session`,{
         courseId: course._id,
         instructorId: course.instructor._id,
@@ -26,6 +28,8 @@ const CourseBox = ({ course }) => {
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -66,6 +70,9 @@ const CourseBox = ({ course }) => {
               Edit
             </Button>
           ) : (
+            loading ? <Button className="w-28 bg-blue-600 hover:bg-blue-700">
+              <Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+            </Button> :
             <Button className="w-28 bg-blue-600 hover:bg-blue-700" onClick={handelBuyCourse}>
               Buy ₹ {course?.price}
             </Button>
